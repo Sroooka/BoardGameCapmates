@@ -9,4 +9,5 @@ public class BoardGameCapmatesApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(BoardGameCapmatesApplication.class, args);
 	}
+	
 }
