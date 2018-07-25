@@ -2,6 +2,7 @@ package com.capgemini.jstk.BoardGameCapmates.mapper;
 
 import org.springframework.stereotype.Service;
 
+import com.capgemini.jstk.BoardGameCapmates.model.AbilityTime;
 import com.capgemini.jstk.BoardGameCapmates.model.Player;
 import com.capgemini.jstk.BoardGameCapmates.model.PlayerTO;
 
@@ -15,6 +16,7 @@ public class PlayerMapper {
 		player.setPlayerDescription(newPlayerTO.getPlayerDescription());
 		player.setPoints(0);
 		player.setRank(newPlayerTO.getRank());
+		player.setAbilityTime(new AbilityTime());
 		return player;
 	}
 	
@@ -24,6 +26,7 @@ public class PlayerMapper {
 		player.setOwnedGames(newPlayer.getOwnedGames());
 		player.setPlayerDescription(newPlayer.getPlayerDescription());
 		player.setRank(newPlayer.getRank());
+		player.setAbilityTime(newPlayer.getAbilityTime());
 		return player;
 	}
 }

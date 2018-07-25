@@ -7,12 +7,15 @@ public class PlayerTO {
 	private Rank rank;
 	private String playerDescription;
 	private List<BoardGame> ownedGames;
+	private AbilityTime abilityTime;
+
 
 	public PlayerTO() {
 		this.nickname = null;
 		this.rank = null;
 		this.playerDescription = null;
 		this.ownedGames = null;
+		abilityTime = new AbilityTime();
 	}
 	
 	public PlayerTO(String nickname, Rank rank, String playerDescription, List<BoardGame> ownedGames) {
@@ -20,6 +23,7 @@ public class PlayerTO {
 		this.rank = rank;
 		this.playerDescription = playerDescription;
 		this.ownedGames = ownedGames;
+		abilityTime = new AbilityTime();
 	}
 
 	public String getNickname() {
@@ -52,6 +56,14 @@ public class PlayerTO {
 
 	public void setOwnedGames(List<BoardGame> ownedGames) {
 		this.ownedGames = ownedGames;
+	}
+	
+	public AbilityTime getAbilityTime() {
+		return abilityTime;
+	}
+
+	public void setAbilityTime(AbilityTime abilityTime) {
+		this.abilityTime = abilityTime;
 	}
 
 }

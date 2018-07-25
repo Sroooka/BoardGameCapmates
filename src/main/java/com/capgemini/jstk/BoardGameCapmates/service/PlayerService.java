@@ -5,7 +5,9 @@ import org.springframework.stereotype.Service;
 
 import com.capgemini.jstk.BoardGameCapmates.exceptions.NonExistingPlayerException;
 import com.capgemini.jstk.BoardGameCapmates.mapper.PlayerMapper;
+import com.capgemini.jstk.BoardGameCapmates.model.AbilityTime;
 import com.capgemini.jstk.BoardGameCapmates.model.BoardGame;
+import com.capgemini.jstk.BoardGameCapmates.model.ChallengeTO;
 import com.capgemini.jstk.BoardGameCapmates.model.Player;
 import com.capgemini.jstk.BoardGameCapmates.model.PlayerTO;
 import com.capgemini.jstk.BoardGameCapmates.model.Rank;
@@ -63,5 +65,31 @@ public class PlayerService {
 
 	public Map<String, PlayerTO> searchPlayersByGame(BoardGame game) {
 		return playerDAO.searchPlayersByGame(game);
+	}
+
+
+
+
+	public void setPlayerDescription(String nickname, String description) throws NonExistingPlayerException {
+		playerDAO.setPlayerDescription(nickname, description);
+	}
+	
+	public Map<String, PlayerTO> searchPlayersByAbilityTime(AbilityTime abilityTime) {
+		return playerDAO.searchPlayersByAbilityTime(abilityTime);
+	}
+
+
+	public void sendInvitations(Integer challengeID, String ... nicknames) throws NonExistingPlayerException {
+		for(int i=0; i<nicknames.length;i++){
+			playerDAO.addInvitationToPlayerByNickname(nicknames[i], challengeID);
+		}
+	}
+
+	public void acceptInvitation(String nickname, Integer challengeID) throws NonExistingPlayerException {
+		playerDAO.acceptInvitationByNickname(nickname, challengeID);
+	}
+	
+	public void rejectInvitation(String nickname, Integer challengeID) throws NonExistingPlayerException {
+		playerDAO.rejectInvitationByNickname(nickname, challengeID);
 	}
 }
