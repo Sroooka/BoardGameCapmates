@@ -2,6 +2,9 @@ package com.capgemini.jstk.BoardGameCapmates.model;
 
 import java.util.List;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class PlayerTO {
 	private String nickname;
 	private Rank rank;

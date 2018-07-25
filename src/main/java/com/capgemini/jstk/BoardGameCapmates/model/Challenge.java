@@ -14,10 +14,13 @@ public class Challenge {
 	private List<String> listOfPlayerNicknames;
 	private LocalTime gameStart;
 	private LocalTime gameEnd;
-	private List<Boolean> acceptations;
+	private List<String> acceptations;
 	private List<String> gameResult;
 	private ChallengeCreator challengeCreator;
 	private String ownerNickname;
+	private int responsesFromPlayers;
+	private List<String> comments;
+	private String invitationMessage;
 
 	public Challenge() {
 		this.game = null;
@@ -28,135 +31,142 @@ public class Challenge {
 		this.numberOfPlayers = 0;
 		this.listOfPlayerNicknames = new ArrayList<String>();
 		this.gameResult = new ArrayList<String>();
-		this.acceptations = new ArrayList<Boolean>();
+		this.acceptations = new ArrayList<String>();
+		this.comments = new ArrayList<String>();
+		this.responsesFromPlayers = 0;
+		this.invitationMessage = "";
 	}
 
-	
-
-	public String getOwnerNickname() {
-		return ownerNickname;
-	}
-
-
-
-	public void setOwnerNickname(String ownerNickname) {
-		this.ownerNickname = ownerNickname;
-	}
-
-
-
-	public ChallengeCreator getChallengeCreator() {
-		return challengeCreator;
-	}
-
-
-
-	public void setChallengeCreator(ChallengeCreator challengeCreator) {
-		this.challengeCreator = challengeCreator;
-	}
-
-
-
-	public BoardGame getGame() {
-		return game;
-	}
-
-
-
-	public void setGame(BoardGame game) {
-		this.game = game;
-	}
-
-
-
-	public int getNumberOfPlayers() {
-		return numberOfPlayers;
-	}
-
-
-
-	public void setNumberOfPlayers(int numberOfPlayers) {
-		this.numberOfPlayers = numberOfPlayers;
-	}
-
-
-
-	public List<String> getListOfPlayerNicknames() {
-		return listOfPlayerNicknames;
-	}
-
-
-
-	public void setListOfPlayerNicknames(List<String> listOfPlayerNicknames) throws NotSelectedBoardGame, TooMuchPlayersException, NotEnoughPlayersException {
-		if(this.game == null){
+	public void setListOfPlayerNicknames(List<String> listOfPlayerNicknames)
+			throws NotSelectedBoardGame, TooMuchPlayersException, NotEnoughPlayersException {
+		if (this.game == null) {
 			throw new NotSelectedBoardGame();
 		}
-		if(listOfPlayerNicknames.size() > this.game.getMaxPlayers()){
+		if (listOfPlayerNicknames.size() > this.game.getMaxPlayers()) {
 			throw new TooMuchPlayersException();
 		}
-		if(listOfPlayerNicknames.size() < this.game.getMinPlayers()){
+		if (listOfPlayerNicknames.size() < this.game.getMinPlayers()) {
 			throw new NotEnoughPlayersException();
 		}
 		this.listOfPlayerNicknames = listOfPlayerNicknames;
 		this.numberOfPlayers = listOfPlayerNicknames.size();
 	}
 
+	public void addAcceptation(String nickname, String comment) {
+		acceptations.add(nickname);
+		comments.add(nickname + " acceptation: " + comment);
+		responsesFromPlayers++;
+	}
 
+	public void rejectAcceptation(String nickname, String comment) {
+		comments.add(nickname + " rejectation: " + comment);
+		responsesFromPlayers++;
+	}
+
+	public int getResponsesFromPlayers() {
+		return responsesFromPlayers;
+	}
+
+	public void setResponsesFromPlayers(int responsesFromPlayers) {
+		this.responsesFromPlayers = responsesFromPlayers;
+	}
+
+
+
+	public List<String> getComments() {
+		return comments;
+	}
+
+	public void setComments(List<String> comments) {
+		this.comments = comments;
+	}
+
+	public String getInvitationMessage() {
+		return invitationMessage;
+	}
+
+	public void setInvitationMessage(String invitationMessage) {
+		this.invitationMessage = invitationMessage;
+	}
+
+	public BoardGame getGame() {
+		return game;
+	}
+
+	public void setGame(BoardGame game) {
+		this.game = game;
+	}
+
+	public int getNumberOfPlayers() {
+		return numberOfPlayers;
+	}
+
+	public void setNumberOfPlayers(int numberOfPlayers) {
+		this.numberOfPlayers = numberOfPlayers;
+	}
 
 	public LocalTime getGameStart() {
 		return gameStart;
 	}
 
-
-
 	public void setGameStart(LocalTime gameStart) {
 		this.gameStart = gameStart;
 	}
-
-
 
 	public LocalTime getGameEnd() {
 		return gameEnd;
 	}
 
-
-
 	public void setGameEnd(LocalTime gameEnd) {
 		this.gameEnd = gameEnd;
 	}
 
-
-
-	public List<Boolean> getAcceptations() {
+	public List<String> getAcceptations() {
 		return acceptations;
 	}
 
-
-
-	public void setAcceptations(List<Boolean> acceptations) {
+	public void setAcceptations(List<String> acceptations) {
 		this.acceptations = acceptations;
 	}
-
-
 
 	public List<String> getGameResult() {
 		return gameResult;
 	}
 
-
-
 	public void setGameResult(List<String> gameResult) {
 		this.gameResult = gameResult;
 	}
 
+	public ChallengeCreator getChallengeCreator() {
+		return challengeCreator;
+	}
 
+	public void setChallengeCreator(ChallengeCreator challengeCreator) {
+		this.challengeCreator = challengeCreator;
+	}
 
-	public boolean canStart() {
-		for (int i = 0; i < acceptations.size(); i++) {
-			if (!acceptations.get(i)) {
+	public String getOwnerNickname() {
+		return ownerNickname;
+	}
+
+	public void setOwnerNickname(String ownerNickname) {
+		this.ownerNickname = ownerNickname;
+	}
+
+	public List<String> getListOfPlayerNicknames() {
+		return listOfPlayerNicknames;
+	}
+
+	public boolean canStartGame() {
+		if (numberOfPlayers != responsesFromPlayers) {
+			return false;
+		}
+		for (int i = 0; i < listOfPlayerNicknames.size(); i++) {
+			if (!acceptations.contains(listOfPlayerNicknames.get(i))) {
 				return false;
 			}
 		}
 		return true;
 	}
+
 }

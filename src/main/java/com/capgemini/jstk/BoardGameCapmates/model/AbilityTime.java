@@ -51,7 +51,7 @@ public class AbilityTime {
 
 	public AbilityTime matchAbilityTime(AbilityTime opponentTime) {
 		AbilityTime matchedAbility = new AbilityTime();
-		
+
 		if (this.ability == null || opponentTime.getAbility() == null) {
 			throw new NullPointerException();
 		}
@@ -61,18 +61,18 @@ public class AbilityTime {
 			LocalTime opponentEndTime = opponentTime.getAbility()[i][1];
 			LocalTime myBeginTime = this.ability[i][0];
 			LocalTime myEndTime = this.ability[i][1];
-			if (opponentBeginTime == null || opponentEndTime == null
-					|| myBeginTime == null || myEndTime == null ||
-					opponentBeginTime.isAfter(myEndTime) ||
-					myBeginTime.isAfter(opponentEndTime)) {
+			if (opponentBeginTime == null || opponentEndTime == null || myBeginTime == null || myEndTime == null
+					|| opponentBeginTime.isAfter(myEndTime) || myBeginTime.isAfter(opponentEndTime)) {
 				continue;
 			}
-			if(opponentBeginTime.isAfter(myBeginTime)){
-				matchedAbility.setAbility(i, opponentBeginTime.getHour(), opponentBeginTime.getMinute(), myEndTime.getHour(), myEndTime.getMinute());
-			}else{
-				matchedAbility.setAbility(i, myBeginTime.getHour(), myBeginTime.getMinute(), opponentEndTime.getHour(), opponentEndTime.getMinute());
+			if (opponentBeginTime.isAfter(myBeginTime)) {
+				matchedAbility.setAbility(i, opponentBeginTime.getHour(), opponentBeginTime.getMinute(),
+						myEndTime.getHour(), myEndTime.getMinute());
+			} else {
+				matchedAbility.setAbility(i, myBeginTime.getHour(), myBeginTime.getMinute(), opponentEndTime.getHour(),
+						opponentEndTime.getMinute());
 			}
-			
+
 		}
 
 		return matchedAbility;
@@ -81,6 +81,5 @@ public class AbilityTime {
 	public int getNumberOfDaysAvaliable() {
 		return numberOfDaysAvaliable;
 	}
-	
-	
+
 }

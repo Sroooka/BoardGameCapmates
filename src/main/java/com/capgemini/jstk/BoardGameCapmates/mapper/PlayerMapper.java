@@ -1,12 +1,11 @@
 package com.capgemini.jstk.BoardGameCapmates.mapper;
 
-import org.springframework.stereotype.Service;
-
+import org.springframework.stereotype.Component;
 import com.capgemini.jstk.BoardGameCapmates.model.AbilityTime;
 import com.capgemini.jstk.BoardGameCapmates.model.Player;
 import com.capgemini.jstk.BoardGameCapmates.model.PlayerTO;
 
-@Service
+@Component
 public class PlayerMapper {
 
 	public static Player makePlayerFromTO(PlayerTO newPlayerTO) {

@@ -13,6 +13,7 @@ public class ChallengeTO {
 	private List<String> gameResult;
 	private ChallengeCreator challengeCreator;
 	private String ownerNickname;
+	private String invitationMessage;
 
 	public ChallengeTO() {
 		this.game = null;
@@ -23,10 +24,17 @@ public class ChallengeTO {
 		this.numberOfPlayers = 0;
 		this.listOfPlayerNicknames = new ArrayList<String>();
 		this.gameResult = new ArrayList<String>();
+		this.invitationMessage = "";
+	}
+	
+	public String getInvitationMessage() {
+		return invitationMessage;
 	}
 
-	
-	
+	public void setInvitationMessage(String invitationMessage) {
+		this.invitationMessage = invitationMessage;
+	}
+
 	public String getOwnerNickname() {
 		return ownerNickname;
 	}
