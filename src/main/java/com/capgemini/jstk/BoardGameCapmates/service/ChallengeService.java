@@ -7,16 +7,16 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.capgemini.jstk.BoardGameCapmates.enums.ChallengeCreator;
 import com.capgemini.jstk.BoardGameCapmates.exceptions.NonExistingChallengeException;
 import com.capgemini.jstk.BoardGameCapmates.exceptions.NonExistingPlayerException;
 import com.capgemini.jstk.BoardGameCapmates.exceptions.NotEnoughPlayersException;
 import com.capgemini.jstk.BoardGameCapmates.exceptions.NotSelectedBoardGame;
 import com.capgemini.jstk.BoardGameCapmates.exceptions.TooMuchPlayersException;
 import com.capgemini.jstk.BoardGameCapmates.mapper.ChallengeMapper;
-import com.capgemini.jstk.BoardGameCapmates.model.BoardGame;
-import com.capgemini.jstk.BoardGameCapmates.model.ChallengeCreator;
-import com.capgemini.jstk.BoardGameCapmates.model.ChallengeTO;
-import com.capgemini.jstk.BoardGameCapmates.model.PlayerTO;
+import com.capgemini.jstk.BoardGameCapmates.model.TO.ChallengeTO;
+import com.capgemini.jstk.BoardGameCapmates.model.TO.PlayerTO;
+import com.capgemini.jstk.BoardGameCapmates.model.entity.BoardGame;
 import com.capgemini.jstk.BoardGameCapmates.repository.ChallengeMapDAO;
 
 @Service
@@ -27,15 +27,14 @@ public class ChallengeService {
 
 	@Autowired
 	ChallengeService(ChallengeMapDAO challengeDAO, PlayerService playerService) {
-		System.out.println("Im in player service constructor");
 		this.challengeDAO = challengeDAO;
 		this.playerService = playerService;
-
 	}
 
-	public ChallengeTO createNewChallenge(String creatorNickname, BoardGame game, LocalTime gameStart, LocalTime gameEnd,
-			String invitationMessage, String... nicknames) throws NotSelectedBoardGame, TooMuchPlayersException,
-			NotEnoughPlayersException, NonExistingChallengeException, NonExistingPlayerException {
+	public ChallengeTO createNewChallenge(String creatorNickname, BoardGame game, LocalTime gameStart,
+			LocalTime gameEnd, String invitationMessage, String... nicknames)
+			throws NotSelectedBoardGame, TooMuchPlayersException, NotEnoughPlayersException,
+			NonExistingChallengeException, NonExistingPlayerException {
 		ChallengeTO challengeTO = new ChallengeTO();
 		challengeTO.setGameStart(gameStart);
 		challengeTO.setGameEnd(gameEnd);

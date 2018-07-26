@@ -3,23 +3,22 @@ package com.capgemini.jstk.BoardGameCapmates.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.capgemini.jstk.BoardGameCapmates.enums.ChallengeCreator;
+import com.capgemini.jstk.BoardGameCapmates.enums.Rank;
 import com.capgemini.jstk.BoardGameCapmates.exceptions.ExistingNicknameException;
 import com.capgemini.jstk.BoardGameCapmates.exceptions.NonExistingPlayerException;
 import com.capgemini.jstk.BoardGameCapmates.mapper.PlayerMapper;
-import com.capgemini.jstk.BoardGameCapmates.model.AbilityTime;
-import com.capgemini.jstk.BoardGameCapmates.model.BoardGame;
-import com.capgemini.jstk.BoardGameCapmates.model.ChallengeCreator;
-import com.capgemini.jstk.BoardGameCapmates.model.ChallengeTO;
-import com.capgemini.jstk.BoardGameCapmates.model.GameTO;
-import com.capgemini.jstk.BoardGameCapmates.model.Player;
-import com.capgemini.jstk.BoardGameCapmates.model.PlayerTO;
-import com.capgemini.jstk.BoardGameCapmates.model.Rank;
+import com.capgemini.jstk.BoardGameCapmates.model.TO.ChallengeTO;
+import com.capgemini.jstk.BoardGameCapmates.model.TO.GameTO;
+import com.capgemini.jstk.BoardGameCapmates.model.TO.PlayerTO;
+import com.capgemini.jstk.BoardGameCapmates.model.entity.AbilityTime;
+import com.capgemini.jstk.BoardGameCapmates.model.entity.BoardGame;
+import com.capgemini.jstk.BoardGameCapmates.model.entity.Player;
 import com.capgemini.jstk.BoardGameCapmates.repository.PlayerMapDAO;
 import static com.capgemini.jstk.BoardGameCapmates.mapper.PlayerMapper.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -29,7 +28,6 @@ public class PlayerService {
 
 	@Autowired
 	PlayerService(PlayerMapDAO playerDAO) {
-		System.out.println("Im in player service constructor");
 		this.playerDAO = playerDAO;
 	}
 
@@ -38,17 +36,13 @@ public class PlayerService {
 	}
 
 	public PlayerTO addPlayer(String nickname) throws ExistingNicknameException {
-		System.out.println("Im in addPlayer");
-
 		PlayerTO newPlayerTO = new PlayerTO();
 		newPlayerTO.setNickname(nickname);
 		newPlayerTO.setOwnedGames(null);
 		newPlayerTO.setPlayerDescription("");
 		newPlayerTO.setRank(Rank.NEWBIE);
-
 		Player newPlayer = PlayerMapper.makePlayerFromTO(newPlayerTO);
 		playerDAO.addPlayer(newPlayer);
-
 		return newPlayerTO;
 	}
 
@@ -139,5 +133,4 @@ public class PlayerService {
 	public void addGameWhichTookPlace(String nickname, GameTO game) {
 		playerDAO.addGameWhichTookPlace(nickname, game);
 	}
-
 }

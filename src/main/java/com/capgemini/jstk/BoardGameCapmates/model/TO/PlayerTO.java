@@ -1,6 +1,10 @@
-package com.capgemini.jstk.BoardGameCapmates.model;
+package com.capgemini.jstk.BoardGameCapmates.model.TO;
 
 import java.util.List;
+
+import com.capgemini.jstk.BoardGameCapmates.enums.Rank;
+import com.capgemini.jstk.BoardGameCapmates.model.entity.AbilityTime;
+import com.capgemini.jstk.BoardGameCapmates.model.entity.BoardGame;
 
 public class PlayerTO {
 	private String nickname;
@@ -9,12 +13,7 @@ public class PlayerTO {
 	private List<BoardGame> ownedGames;
 	private AbilityTime abilityTime;
 
-
 	public PlayerTO() {
-		this.nickname = null;
-		this.rank = null;
-		this.playerDescription = null;
-		this.ownedGames = null;
 		abilityTime = new AbilityTime();
 	}
 	
@@ -65,5 +64,4 @@ public class PlayerTO {
 	public void setAbilityTime(AbilityTime abilityTime) {
 		this.abilityTime = abilityTime;
 	}
-
 }

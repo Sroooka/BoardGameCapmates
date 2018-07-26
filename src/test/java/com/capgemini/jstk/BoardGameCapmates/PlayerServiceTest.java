@@ -1,6 +1,11 @@
 package com.capgemini.jstk.BoardGameCapmates;
 
-import org.junit.Before;
+import static junit.framework.Assert.assertEquals;
+import static org.mockito.Mockito.atLeast;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -9,18 +14,17 @@ import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import static junit.framework.Assert.*;
-import static org.mockito.Mockito.atLeast;
-import java.util.ArrayList;
-import java.util.List;
-
+import com.capgemini.jstk.BoardGameCapmates.enums.Rank;
 import com.capgemini.jstk.BoardGameCapmates.exceptions.ExistingNicknameException;
 import com.capgemini.jstk.BoardGameCapmates.exceptions.NonExistingPlayerException;
-import com.capgemini.jstk.BoardGameCapmates.model.*;
+import com.capgemini.jstk.BoardGameCapmates.model.TO.ChallengeTO;
+import com.capgemini.jstk.BoardGameCapmates.model.TO.GameTO;
+import com.capgemini.jstk.BoardGameCapmates.model.entity.AbilityTime;
+import com.capgemini.jstk.BoardGameCapmates.model.entity.BoardGame;
+import com.capgemini.jstk.BoardGameCapmates.model.entity.Player;
 import com.capgemini.jstk.BoardGameCapmates.repository.PlayerMapDAO;
 import com.capgemini.jstk.BoardGameCapmates.service.PlayerService;
 
-@SuppressWarnings({ "deprecation" })
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class PlayerServiceTest {
@@ -31,11 +35,7 @@ public class PlayerServiceTest {
 	@Mock
 	PlayerMapDAO playerMapDAO;
 
-	@Before
-	public void setUp() {
-
-	}
-
+	@SuppressWarnings("deprecation")
 	@Test
 	public void shouldReturnPlayersAmount() {
 		// given
@@ -45,7 +45,6 @@ public class PlayerServiceTest {
 		// then
 		Mockito.verify(playerMapDAO).size();
 		assertEquals(amount, 500);
-		
 	}
 
 	@Test

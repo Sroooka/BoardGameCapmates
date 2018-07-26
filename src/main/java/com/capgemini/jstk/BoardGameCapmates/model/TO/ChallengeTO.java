@@ -1,8 +1,11 @@
-package com.capgemini.jstk.BoardGameCapmates.model;
+package com.capgemini.jstk.BoardGameCapmates.model.TO;
 
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+
+import com.capgemini.jstk.BoardGameCapmates.enums.ChallengeCreator;
+import com.capgemini.jstk.BoardGameCapmates.model.entity.BoardGame;
 
 public class ChallengeTO {
 	private int challengeID;
@@ -17,11 +20,6 @@ public class ChallengeTO {
 	private String invitationMessage;
 
 	public ChallengeTO() {
-		this.game = null;
-		this.gameStart = null;
-		this.gameEnd = null;
-		this.ownerNickname = null;
-		this.challengeCreator = null;
 		this.numberOfPlayers = 0;
 		this.listOfPlayerNicknames = new ArrayList<String>();
 		this.gameResult = new ArrayList<String>();
@@ -29,11 +27,6 @@ public class ChallengeTO {
 	}
 	
 	public ChallengeTO(BoardGame game,int numberOfPlayers) {
-		this.game = null;
-		this.gameStart = null;
-		this.gameEnd = null;
-		this.ownerNickname = null;
-		this.challengeCreator = null;
 		this.numberOfPlayers = 0;
 		this.listOfPlayerNicknames = new ArrayList<String>();
 		this.gameResult = new ArrayList<String>();
@@ -45,13 +38,9 @@ public class ChallengeTO {
 		return challengeID;
 	}
 
-
-
 	public void setChallengeID(int challengeID) {
 		this.challengeID = challengeID;
 	}
-
-
 
 	public String getInvitationMessage() {
 		return invitationMessage;
@@ -65,25 +54,17 @@ public class ChallengeTO {
 		return ownerNickname;
 	}
 
-
-
 	public void setOwnerNickname(String ownerNickname) {
 		this.ownerNickname = ownerNickname;
 	}
-
-
 
 	public ChallengeCreator getChallengeCreator() {
 		return challengeCreator;
 	}
 
-
-
 	public void setChallengeCreator(ChallengeCreator challengeCreator) {
 		this.challengeCreator = challengeCreator;
 	}
-
-
 
 	public BoardGame getGame() {
 		return game;
@@ -132,8 +113,4 @@ public class ChallengeTO {
 	public void setGameResult(List<String> gameResult) {
 		this.gameResult = gameResult;
 	}
-
-	
-	
-	
 }

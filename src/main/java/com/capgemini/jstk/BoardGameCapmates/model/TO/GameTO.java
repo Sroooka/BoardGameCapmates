@@ -1,33 +1,23 @@
-package com.capgemini.jstk.BoardGameCapmates.model;
+package com.capgemini.jstk.BoardGameCapmates.model.TO;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
-public class Game {
+import com.capgemini.jstk.BoardGameCapmates.model.entity.BoardGame;
+
+public class GameTO {
 	private BoardGame boardGame;
 	private int numberOfPlayers;
 	private List<String> listOfPlayerNicknames;
-	private List<String> playerComments;
-
-	public Game() {
+	
+	public GameTO() {
 		listOfPlayerNicknames = new ArrayList<>();
-		playerComments = new ArrayList<>();
 	}
-
-	public Game(BoardGame boardGame, int numberOfPlayers, List<String> listOfPlayerNicknames) {
+	
+	public GameTO(BoardGame boardGame, int numberOfPlayers, List<String> listOfPlayerNicknames) {
 		this.boardGame = boardGame;
 		this.numberOfPlayers = numberOfPlayers;
 		this.listOfPlayerNicknames = listOfPlayerNicknames;
-		playerComments = new ArrayList<>();
-	}
-
-	public void startGame() {
-		Collections.shuffle(listOfPlayerNicknames);
-	}
-
-	public void addPlayerComment(String nickname, String comment) {
-		playerComments.add(nickname + ": " + comment);
 	}
 
 	public BoardGame getBoardGame() {
@@ -53,13 +43,4 @@ public class Game {
 	public void setListOfPlayerNicknames(List<String> listOfPlayerNicknames) {
 		this.listOfPlayerNicknames = listOfPlayerNicknames;
 	}
-
-	public List<String> getPlayerComments() {
-		return playerComments;
-	}
-
-	public void setPlayerComments(List<String> playerComments) {
-		this.playerComments = playerComments;
-	}
-
 }

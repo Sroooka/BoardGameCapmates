@@ -13,10 +13,9 @@ import com.capgemini.jstk.BoardGameCapmates.exceptions.NotSelectedBoardGame;
 import com.capgemini.jstk.BoardGameCapmates.exceptions.TooMuchPlayersException;
 import com.capgemini.jstk.BoardGameCapmates.mapper.ChallengeMapper;
 import com.capgemini.jstk.BoardGameCapmates.mapper.GameMapper;
-import com.capgemini.jstk.BoardGameCapmates.model.BoardGame;
-import com.capgemini.jstk.BoardGameCapmates.model.Challenge;
-import com.capgemini.jstk.BoardGameCapmates.model.ChallengeTO;
-import com.capgemini.jstk.BoardGameCapmates.model.GameTO;
+import com.capgemini.jstk.BoardGameCapmates.model.TO.ChallengeTO;
+import com.capgemini.jstk.BoardGameCapmates.model.TO.GameTO;
+import com.capgemini.jstk.BoardGameCapmates.model.entity.Challenge;
 
 @Repository
 public class ChallengeMapDAO {
@@ -27,12 +26,14 @@ public class ChallengeMapDAO {
 		this.challengeMap = new HashMap<>();
 		this.gameID = 0;
 	}
-public Challenge getChallengeByID(int ID) throws NonExistingChallengeException{
-	if(!challengeMap.containsKey(ID)){
-		throw new NonExistingChallengeException();
+
+	public Challenge getChallengeByID(int ID) throws NonExistingChallengeException {
+		if (!challengeMap.containsKey(ID)) {
+			throw new NonExistingChallengeException();
+		}
+		return challengeMap.get(ID);
 	}
-	return challengeMap.get(ID);
-}
+
 	public void addChallenge(ChallengeTO challengeTO)
 			throws NotSelectedBoardGame, TooMuchPlayersException, NotEnoughPlayersException {
 		Challenge challenge = ChallengeMapper.makeChallengeFromTO(challengeTO);
@@ -46,12 +47,6 @@ public Challenge getChallengeByID(int ID) throws NonExistingChallengeException{
 		challengeMap.put(gameID, ChallengeMapper.makeChallengeFromTO(challenge));
 		challengeMap.get(gameID).setChallengeID(gameID);
 		gameID++;
-	}
-
-	public void init() throws NotSelectedBoardGame, TooMuchPlayersException, NotEnoughPlayersException {
-		addChallenge(new ChallengeTO(new BoardGame("Chess", 2, 2), 2));
-		addChallenge(new ChallengeTO(new BoardGame("X and O", 2, 2), 2));
-		addChallenge(new ChallengeTO(new BoardGame("Poker", 2, 8), 6));
 	}
 
 	public void clear() {
@@ -92,7 +87,6 @@ public Challenge getChallengeByID(int ID) throws NonExistingChallengeException{
 		Challenge currentChallenge = challengeMap.get(challengeTO.getChallengeID());
 		currentChallenge.getTheGameTookPlace().startGame();
 		return currentChallenge.getTheGameTookPlace().getListOfPlayerNicknames();
-
 	}
 
 	public void commentGameWhichTookPlace(String nickname, ChallengeTO challengeTO, String comment) {
@@ -123,5 +117,4 @@ public Challenge getChallengeByID(int ID) throws NonExistingChallengeException{
 	public void setGameID(int gameID) {
 		this.gameID = gameID;
 	}
-
 }

@@ -1,9 +1,10 @@
-package com.capgemini.jstk.BoardGameCapmates.model;
+package com.capgemini.jstk.BoardGameCapmates.model.entity;
 
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.capgemini.jstk.BoardGameCapmates.enums.ChallengeCreator;
 import com.capgemini.jstk.BoardGameCapmates.exceptions.NotEnoughPlayersException;
 import com.capgemini.jstk.BoardGameCapmates.exceptions.NotSelectedBoardGame;
 import com.capgemini.jstk.BoardGameCapmates.exceptions.TooMuchPlayersException;
@@ -25,11 +26,6 @@ public class Challenge {
 	private Game theGameTookPlace;
 
 	public Challenge() {
-		this.game = null;
-		this.gameStart = null;
-		this.gameEnd = null;
-		this.ownerNickname = null;
-		this.challengeCreator = null;
 		this.numberOfPlayers = 0;
 		this.listOfPlayerNicknames = new ArrayList<String>();
 		this.gameResult = new ArrayList<String>();
@@ -72,8 +68,6 @@ public class Challenge {
 	public void setResponsesFromPlayers(int responsesFromPlayers) {
 		this.responsesFromPlayers = responsesFromPlayers;
 	}
-
-
 
 	public int getChallengeID() {
 		return challengeID;
@@ -186,5 +180,4 @@ public class Challenge {
 		}
 		return true;
 	}
-
 }

@@ -2,8 +2,8 @@ package com.capgemini.jstk.BoardGameCapmates.mapper;
 
 import org.springframework.stereotype.Component;
 
-import com.capgemini.jstk.BoardGameCapmates.model.Game;
-import com.capgemini.jstk.BoardGameCapmates.model.GameTO;
+import com.capgemini.jstk.BoardGameCapmates.model.TO.GameTO;
+import com.capgemini.jstk.BoardGameCapmates.model.entity.Game;
 
 @Component
 public class GameMapper {

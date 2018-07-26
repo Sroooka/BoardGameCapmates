@@ -5,8 +5,8 @@ import org.springframework.stereotype.Component;
 import com.capgemini.jstk.BoardGameCapmates.exceptions.NotEnoughPlayersException;
 import com.capgemini.jstk.BoardGameCapmates.exceptions.NotSelectedBoardGame;
 import com.capgemini.jstk.BoardGameCapmates.exceptions.TooMuchPlayersException;
-import com.capgemini.jstk.BoardGameCapmates.model.BoardGame;
-import com.capgemini.jstk.BoardGameCapmates.model.BoardGameTO;
+import com.capgemini.jstk.BoardGameCapmates.model.TO.BoardGameTO;
+import com.capgemini.jstk.BoardGameCapmates.model.entity.BoardGame;
 
 @Component
 public class BoardGameMapper {

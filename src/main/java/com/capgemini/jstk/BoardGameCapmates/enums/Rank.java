@@ -1,4 +1,4 @@
-package com.capgemini.jstk.BoardGameCapmates.model;
+package com.capgemini.jstk.BoardGameCapmates.enums;
 
 public enum Rank {
 	NEWBIE(0),

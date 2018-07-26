@@ -6,7 +6,6 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -15,16 +14,15 @@ import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import com.capgemini.jstk.BoardGameCapmates.enums.ChallengeCreator;
 import com.capgemini.jstk.BoardGameCapmates.exceptions.NonExistingChallengeException;
 import com.capgemini.jstk.BoardGameCapmates.exceptions.NonExistingPlayerException;
 import com.capgemini.jstk.BoardGameCapmates.exceptions.NotEnoughPlayersException;
 import com.capgemini.jstk.BoardGameCapmates.exceptions.NotSelectedBoardGame;
 import com.capgemini.jstk.BoardGameCapmates.exceptions.TooMuchPlayersException;
-import com.capgemini.jstk.BoardGameCapmates.model.BoardGame;
-import com.capgemini.jstk.BoardGameCapmates.model.ChallengeCreator;
-import com.capgemini.jstk.BoardGameCapmates.model.ChallengeTO;
+import com.capgemini.jstk.BoardGameCapmates.model.TO.ChallengeTO;
+import com.capgemini.jstk.BoardGameCapmates.model.entity.BoardGame;
 import com.capgemini.jstk.BoardGameCapmates.repository.ChallengeMapDAO;
-import com.capgemini.jstk.BoardGameCapmates.repository.PlayerMapDAO;
 import com.capgemini.jstk.BoardGameCapmates.service.ChallengeService;
 import com.capgemini.jstk.BoardGameCapmates.service.PlayerService;
 
@@ -41,11 +39,6 @@ public class ChallengeServiceTest {
 
 	@Mock
 	PlayerService playerService;
-
-	@Before
-	public void setUp() {
-
-	}
 
 	@Test
 	public void shouldReturnPlayersAmount() {
@@ -115,7 +108,7 @@ public class ChallengeServiceTest {
 		// then
 		Mockito.verify(playerService).getChallengesThrownBySystem(Mockito.anyString());
 	}
-	
+
 	@Test
 	public void shouldGetChallengesThrownByOtherUsers() throws NonExistingChallengeException, NotSelectedBoardGame,
 			TooMuchPlayersException, NotEnoughPlayersException, NonExistingPlayerException {
@@ -126,7 +119,7 @@ public class ChallengeServiceTest {
 		// then
 		Mockito.verify(playerService).getChallengesThrownByOtherUsers(Mockito.anyString());
 	}
-	
+
 	@Test
 	public void shouldGetChallengesThrownAtOtherUsers() throws NonExistingChallengeException, NotSelectedBoardGame,
 			TooMuchPlayersException, NotEnoughPlayersException, NonExistingPlayerException {
@@ -137,7 +130,7 @@ public class ChallengeServiceTest {
 		// then
 		Mockito.verify(playerService).getChallengesThrownAtOtherUsers(Mockito.anyString());
 	}
-	
+
 	@Test
 	public void shouldGetChallengesAcceptedByPlayer() throws NonExistingChallengeException, NotSelectedBoardGame,
 			TooMuchPlayersException, NotEnoughPlayersException, NonExistingPlayerException {
@@ -148,7 +141,7 @@ public class ChallengeServiceTest {
 		// then
 		Mockito.verify(playerService).getChallengesAcceptedByPlayer(Mockito.anyString());
 	}
-	
+
 	@Test
 	public void shouldGetAllOpponentChallenges() throws NonExistingChallengeException, NotSelectedBoardGame,
 			TooMuchPlayersException, NotEnoughPlayersException, NonExistingPlayerException {
@@ -159,7 +152,7 @@ public class ChallengeServiceTest {
 		// then
 		Mockito.verify(challengeMapDAO).getAllOpponentChallenges(Mockito.anyString());
 	}
-	
+
 	@Test
 	public void shouldCheckOpponentInfo() throws NonExistingChallengeException, NotSelectedBoardGame,
 			TooMuchPlayersException, NotEnoughPlayersException, NonExistingPlayerException {
@@ -171,7 +164,7 @@ public class ChallengeServiceTest {
 		// then
 		Mockito.verify(playerService).checkOpponentInfo(Mockito.any());
 	}
-	
+
 	@Test
 	public void shouldStartGame() {
 		// given
@@ -184,13 +177,14 @@ public class ChallengeServiceTest {
 	}
 
 	@Test
-	public void shouldCommentGameWhichTookPlace()  {
+	public void shouldCommentGameWhichTookPlace() {
 		// given
 		// when
 		ChallengeTO challenge = new ChallengeTO();
 		challengeMapDAO.commentGameWhichTookPlace("Sroka", challenge, "comment");
 		// then
-		Mockito.verify(challengeMapDAO).commentGameWhichTookPlace(Mockito.anyString(),Mockito.any(),Mockito.anyString());
+		Mockito.verify(challengeMapDAO).commentGameWhichTookPlace(Mockito.anyString(), Mockito.any(),
+				Mockito.anyString());
 	}
-	
+
 }

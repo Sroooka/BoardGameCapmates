@@ -3,24 +3,23 @@ package com.capgemini.jstk.BoardGameCapmates;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import static junit.framework.Assert.*;
-import static org.mockito.Mockito.atLeast;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-
+import com.capgemini.jstk.BoardGameCapmates.enums.ChallengeCreator;
+import com.capgemini.jstk.BoardGameCapmates.enums.Rank;
 import com.capgemini.jstk.BoardGameCapmates.exceptions.ExistingNicknameException;
 import com.capgemini.jstk.BoardGameCapmates.exceptions.NonExistingPlayerException;
-import com.capgemini.jstk.BoardGameCapmates.model.*;
+import com.capgemini.jstk.BoardGameCapmates.model.TO.ChallengeTO;
+import com.capgemini.jstk.BoardGameCapmates.model.TO.GameTO;
+import com.capgemini.jstk.BoardGameCapmates.model.entity.AbilityTime;
+import com.capgemini.jstk.BoardGameCapmates.model.entity.BoardGame;
+import com.capgemini.jstk.BoardGameCapmates.model.entity.Player;
 import com.capgemini.jstk.BoardGameCapmates.repository.PlayerMapDAO;
-import com.capgemini.jstk.BoardGameCapmates.service.PlayerService;
 
 @SuppressWarnings({ "deprecation" })
 @RunWith(SpringRunner.class)

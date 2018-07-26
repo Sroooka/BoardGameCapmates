@@ -1,7 +1,11 @@
-package com.capgemini.jstk.BoardGameCapmates.model;
+package com.capgemini.jstk.BoardGameCapmates.model.entity;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import com.capgemini.jstk.BoardGameCapmates.enums.Rank;
+import com.capgemini.jstk.BoardGameCapmates.model.TO.ChallengeTO;
+import com.capgemini.jstk.BoardGameCapmates.model.TO.GameTO;
 
 public class Player {
 	private String nickname;
@@ -18,7 +22,6 @@ public class Player {
 	private List<GameTO> myPlayedGamesInChallenges;
 
 	public Player() {
-		this.nickname = null;
 		this.points = 0;
 		this.rank = Rank.NEWBIE;
 		this.playerDescription = "";
@@ -62,10 +65,10 @@ public class Player {
 		this.computeRank();
 	}
 
-	public void addGameWhichTookPlace(GameTO game){
+	public void addGameWhichTookPlace(GameTO game) {
 		myPlayedGamesInChallenges.add(game);
 	}
-	
+
 	public void addNewInvitation(ChallengeTO challenge) {
 		newInvitations.add(challenge);
 	}
@@ -90,8 +93,6 @@ public class Player {
 		}
 	}
 
-	
-	
 	public List<GameTO> getMyPlayedGamesInChallenges() {
 		return myPlayedGamesInChallenges;
 	}
@@ -189,47 +190,35 @@ public class Player {
 	}
 
 	private void computeRank() {
-		System.out.println(this.points);
 		if (this.points < 10) {
 			this.rank = Rank.NEWBIE;
-		}
-		else if (this.points < 20) {
+		} else if (this.points < 20) {
 			this.rank = Rank.WEAKLING;
-		}
-		else if (this.points < 40) {
+		} else if (this.points < 40) {
 			this.rank = Rank.BEGINNER;
-		}
-		else if (this.points < 80) {
+		} else if (this.points < 80) {
 			this.rank = Rank.EXPERIENCED_BEGINNER;
-		}
-		else if (this.points < 160) {
+		} else if (this.points < 160) {
 			this.rank = Rank.MIDDLEBROW;
-		}
-		else if (this.points < 320) {
+		} else if (this.points < 320) {
 			this.rank = Rank.EXPERIENCED_MIDDLEBORW;
-		}
-		else if (this.points < 640) {
+		} else if (this.points < 640) {
 			this.rank = Rank.ADVANCED;
-		}
-		else if (this.points < 1280) {
+		} else if (this.points < 1280) {
 			this.rank = Rank.PROFESSIONAL;
-		}
-		else if (this.points < 2560) {
+		} else if (this.points < 2560) {
 			this.rank = Rank.MASTER;
-		}
-		else if (this.points < 5120) {
+		} else if (this.points < 5120) {
 			this.rank = Rank.ULTRA_MASTER;
-		}
-		else if (this.points < 99999) {
+		} else if (this.points < 99999) {
 			this.rank = Rank.ULTRA_TURBO_MASTER;
-		}else{
+		} else {
 			this.rank = Rank.GOD_OF_BOARD_GAMES;
 		}
-		
 	}
 
 	public void addPoints(int points) {
-		this.points+=points;
+		this.points += points;
 		this.computeRank();
 	}
 }

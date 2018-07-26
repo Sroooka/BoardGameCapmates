@@ -1,9 +1,10 @@
 package com.capgemini.jstk.BoardGameCapmates.mapper;
 
 import org.springframework.stereotype.Component;
-import com.capgemini.jstk.BoardGameCapmates.model.AbilityTime;
-import com.capgemini.jstk.BoardGameCapmates.model.Player;
-import com.capgemini.jstk.BoardGameCapmates.model.PlayerTO;
+
+import com.capgemini.jstk.BoardGameCapmates.model.TO.PlayerTO;
+import com.capgemini.jstk.BoardGameCapmates.model.entity.AbilityTime;
+import com.capgemini.jstk.BoardGameCapmates.model.entity.Player;
 
 @Component
 public class PlayerMapper {

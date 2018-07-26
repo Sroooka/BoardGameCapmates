@@ -5,8 +5,8 @@ import org.springframework.stereotype.Component;
 import com.capgemini.jstk.BoardGameCapmates.exceptions.NotEnoughPlayersException;
 import com.capgemini.jstk.BoardGameCapmates.exceptions.NotSelectedBoardGame;
 import com.capgemini.jstk.BoardGameCapmates.exceptions.TooMuchPlayersException;
-import com.capgemini.jstk.BoardGameCapmates.model.Challenge;
-import com.capgemini.jstk.BoardGameCapmates.model.ChallengeTO;
+import com.capgemini.jstk.BoardGameCapmates.model.TO.ChallengeTO;
+import com.capgemini.jstk.BoardGameCapmates.model.entity.Challenge;
 
 @Component
 public class ChallengeMapper {
@@ -21,7 +21,6 @@ public class ChallengeMapper {
 		challenge.setListOfPlayerNicknames(newChallengeTO.getListOfPlayerNicknames());
 		challenge.setInvitationMessage(newChallengeTO.getInvitationMessage());
 		challenge.setNumberOfPlayers(newChallengeTO.getNumberOfPlayers());
-
 		return challenge;
 	}
 

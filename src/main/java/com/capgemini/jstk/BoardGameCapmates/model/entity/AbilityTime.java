@@ -1,7 +1,6 @@
-package com.capgemini.jstk.BoardGameCapmates.model;
+package com.capgemini.jstk.BoardGameCapmates.model.entity;
 
 import java.time.LocalTime;
-import java.util.Arrays;
 
 public class AbilityTime {
 	private LocalTime[][] ability;
@@ -9,30 +8,24 @@ public class AbilityTime {
 
 	public AbilityTime() {
 		ability = new LocalTime[7][2];
-		for (LocalTime[] days : ability) {
-			for (LocalTime time : days) {
-				time = null;
-			}
+		for (int i = 0; i < 7; i++) {
+			ability[i][0] = null;
+			ability[i][1] = null;
 		}
 		numberOfDaysAvaliable = 0;
 	}
 
 	public void setAbility(int dayOfWeek, int fromHours, int fromMinutes, int toHours, int toMinutes) {
 		checkRange(dayOfWeek, fromHours, fromMinutes, toHours, toMinutes);
-		System.out.println(LocalTime.of(fromHours, fromMinutes));
-		System.out.println(LocalTime.of(toHours, toMinutes));
-		System.out.println(ability[dayOfWeek - 1][0]);
-		System.out.println(ability[dayOfWeek - 1][1]);
 		ability[dayOfWeek - 1][0] = LocalTime.of(fromHours, fromMinutes);
 		ability[dayOfWeek - 1][1] = LocalTime.of(toHours, toMinutes);
 		numberOfDaysAvaliable++;
 	}
 
 	public void clearAbility() {
-		for (LocalTime[] days : ability) {
-			for (LocalTime time : days) {
-				time = null;
-			}
+		for (int i = 0; i < 7; i++) {
+			ability[i][0] = null;
+			ability[i][1] = null;
 		}
 		numberOfDaysAvaliable = 0;
 	}
@@ -50,8 +43,6 @@ public class AbilityTime {
 	private void checkRange(int dayOfWeek, int fromHours, int fromMinutes, int toHours, int toMinutes) {
 		if (fromHours < 0 || fromHours > 23 || toHours < 0 || toHours > 23 || fromMinutes < 0 || fromMinutes > 59
 				|| toMinutes < 0 || toMinutes > 59 || dayOfWeek < 1 || dayOfWeek > 7) {
-			System.out.println("fromHours" + fromHours + "toHours" + toHours + "fromMinutes" + fromMinutes + "toMinutes"
-					+ toMinutes + "dayOfWeek" + dayOfWeek);
 			throw new IllegalArgumentException();
 		}
 		if (fromHours > toHours) {
@@ -87,14 +78,11 @@ public class AbilityTime {
 				matchedAbility.setAbility(i + 1, myBeginTime.getHour(), myBeginTime.getMinute(),
 						opponentEndTime.getHour(), opponentEndTime.getMinute());
 			}
-
 		}
-
 		return matchedAbility;
 	}
 
 	public int getNumberOfDaysAvaliable() {
 		return numberOfDaysAvaliable;
 	}
-
 }
