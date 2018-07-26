@@ -34,20 +34,6 @@ public class PlayerService {
 		this.playerDAO = playerDAO;
 	}
 
-	@PostConstruct
-	public void init() throws ExistingNicknameException {
-		System.out.println("Im in init()");
-		playerDAO.isEmpty();
-		playerDAO.addPlayer(new Player("Sroka", 100000, "ten ktory to pisal"));
-		playerDAO.addPlayer(new Player("szymek", 100000, "hehehe"));
-		playerDAO.addPlayer(new Player("czesiek", 100000, "hahaha"));
-		playerDAO.addPlayer(new Player("krzysiek", 100000, "hyhyhy"));
-		playerDAO.addPlayer(new Player("heniek", 100000, "huehue"));
-		playerDAO.addPlayer(new Player("zdzisiek", 100000, "husahusahu"));
-		playerDAO.addPlayer(new Player("romek", 100000, "haaaaaaah"));
-		playerDAO.addPlayer(new Player("davy", 100000, "jakis madry opis"));
-	}
-
 	public int getPlayersAmount() {
 		return playerDAO.size();
 	}
@@ -126,7 +112,7 @@ public class PlayerService {
 
 	public List<ChallengeTO> getChallengesThrownBySystem(String myNickname) throws NonExistingPlayerException {
 		List<ChallengeTO> returnList = new ArrayList<>();
-		playerDAO.getUserByNick(myNickname).getAcceptedInvitations();
+		playerDAO.getUserByNick(myNickname).getNewInvitations();
 		for(ChallengeTO challenge : playerDAO.getUserByNick(myNickname).getNewInvitations()){
 			if(challenge.getChallengeCreator() == ChallengeCreator.SYSTEM){
 				returnList.add(challenge);
