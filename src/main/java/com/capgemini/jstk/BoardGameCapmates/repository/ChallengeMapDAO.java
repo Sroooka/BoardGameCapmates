@@ -91,4 +91,8 @@ public class ChallengeMapDAO {
 		return GameMapper.makeTOFromGame(challengeMap.get(challenge.getChallengeID()).getTheGameTookPlace());
 	}
 
+	public Object size() {
+		return this.challengeMap.size();
+	}
+
 }

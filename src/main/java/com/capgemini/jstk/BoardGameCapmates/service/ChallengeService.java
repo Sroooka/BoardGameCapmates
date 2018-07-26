@@ -33,7 +33,7 @@ public class ChallengeService {
 
 	}
 
-	public void createNewChallenge(String creatorNickname, BoardGame game, LocalTime gameStart, LocalTime gameEnd,
+	public ChallengeTO createNewChallenge(String creatorNickname, BoardGame game, LocalTime gameStart, LocalTime gameEnd,
 			String invitationMessage, String... nicknames) throws NotSelectedBoardGame, TooMuchPlayersException,
 			NotEnoughPlayersException, NonExistingChallengeException, NonExistingPlayerException {
 		ChallengeTO challengeTO = new ChallengeTO();
@@ -50,6 +50,7 @@ public class ChallengeService {
 		challengeTO.setChallengeCreator(ChallengeCreator.PLAYER);
 		challengeDAO.addChallenge(challengeTO);
 		playerService.invitePlayers(challengeTO);
+		return challengeTO;
 	}
 
 	public void acceptChallenge(String nickname, ChallengeTO challengeTO, String comment)
@@ -101,5 +102,9 @@ public class ChallengeService {
 
 	public void commentGameWhichTookPlace(String nickname, ChallengeTO challengeTO, String comment) {
 		challengeDAO.commentGameWhichTookPlace(nickname, challengeTO, comment);
+	}
+
+	public int getChallengesAmount() {
+		return (int) challengeDAO.size();
 	}
 }
