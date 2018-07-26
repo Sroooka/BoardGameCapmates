@@ -14,7 +14,7 @@ import com.capgemini.jstk.BoardGameCapmates.model.GameTO;
 import com.capgemini.jstk.BoardGameCapmates.model.Player;
 import com.capgemini.jstk.BoardGameCapmates.model.PlayerTO;
 import com.capgemini.jstk.BoardGameCapmates.model.Rank;
-import com.capgemini.jstk.BoardGameCapmates.repository.PlayerListDAO;
+import com.capgemini.jstk.BoardGameCapmates.repository.PlayerMapDAO;
 import static com.capgemini.jstk.BoardGameCapmates.mapper.PlayerMapper.*;
 
 import java.util.ArrayList;
@@ -26,13 +26,12 @@ import javax.annotation.PostConstruct;
 @Service
 public class PlayerService {
 
-	private final PlayerListDAO playerDAO;
+	private final PlayerMapDAO playerDAO;
 
 	@Autowired
-	PlayerService(PlayerListDAO playerDAO) {
+	PlayerService(PlayerMapDAO playerDAO) {
 		System.out.println("Im in player service constructor");
 		this.playerDAO = playerDAO;
-
 	}
 
 	@PostConstruct

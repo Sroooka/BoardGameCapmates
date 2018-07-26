@@ -17,16 +17,16 @@ import com.capgemini.jstk.BoardGameCapmates.model.BoardGame;
 import com.capgemini.jstk.BoardGameCapmates.model.ChallengeCreator;
 import com.capgemini.jstk.BoardGameCapmates.model.ChallengeTO;
 import com.capgemini.jstk.BoardGameCapmates.model.PlayerTO;
-import com.capgemini.jstk.BoardGameCapmates.repository.ChallengeListDAO;
+import com.capgemini.jstk.BoardGameCapmates.repository.ChallengeMapDAO;
 
 @Service
 public class ChallengeService {
 
-	private final ChallengeListDAO challengeDAO;
+	private final ChallengeMapDAO challengeDAO;
 	private final PlayerService playerService;
 
 	@Autowired
-	ChallengeService(ChallengeListDAO challengeDAO, PlayerService playerService) {
+	ChallengeService(ChallengeMapDAO challengeDAO, PlayerService playerService) {
 		System.out.println("Im in player service constructor");
 		this.challengeDAO = challengeDAO;
 		this.playerService = playerService;

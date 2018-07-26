@@ -8,15 +8,15 @@ import org.springframework.stereotype.Service;
 import com.capgemini.jstk.BoardGameCapmates.exceptions.BoardGameAlreadyExistsInDatabase;
 import com.capgemini.jstk.BoardGameCapmates.exceptions.NotExistingBoardGameException;
 import com.capgemini.jstk.BoardGameCapmates.model.BoardGame;
-import com.capgemini.jstk.BoardGameCapmates.repository.BoardGameListDAO;
+import com.capgemini.jstk.BoardGameCapmates.repository.BoardGameMapDAO;
 
 @Service
 public class BoardGameService {
 
-	private final BoardGameListDAO boardGameDAO;
+	private final BoardGameMapDAO boardGameDAO;
 
 	@Autowired
-	BoardGameService(BoardGameListDAO boardGameDAO) {
+	BoardGameService(BoardGameMapDAO boardGameDAO) {
 		System.out.println("Im in player service constructor");
 		this.boardGameDAO = boardGameDAO;
 

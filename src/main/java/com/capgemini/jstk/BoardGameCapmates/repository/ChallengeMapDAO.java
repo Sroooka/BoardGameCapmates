@@ -17,11 +17,11 @@ import com.capgemini.jstk.BoardGameCapmates.model.ChallengeTO;
 import com.capgemini.jstk.BoardGameCapmates.model.GameTO;
 
 @Repository
-public class ChallengeListDAO {
+public class ChallengeMapDAO {
 	private Map<Integer, Challenge> challengeMap;
 	private int gameID;
 
-	public ChallengeListDAO() {
+	public ChallengeMapDAO() {
 		this.challengeMap = new HashMap<>();
 		this.gameID = 0;
 	}

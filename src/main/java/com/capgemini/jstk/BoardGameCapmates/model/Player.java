@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import org.springframework.stereotype.Component;
 
-@Component
 public class Player {
 	private String nickname;
 	private int points;

@@ -7,17 +7,32 @@ import com.capgemini.jstk.BoardGameCapmates.model.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.annotation.PostConstruct;
+
 import org.springframework.stereotype.Repository;
 import static com.capgemini.jstk.BoardGameCapmates.mapper.PlayerMapper.*;
 
 @Repository
-public class PlayerListDAO {
+public class PlayerMapDAO {
 
 	private Map<String, Player> playerMap;
 
 	
-	PlayerListDAO() {
+	PlayerMapDAO() {
 		this.playerMap = new HashMap<>();
+	}
+	
+	@PostConstruct
+	public void init() throws ExistingNicknameException {
+		addPlayer(new Player("Sroka", 100000, "ten ktory to pisal"));
+		addPlayer(new Player("szymek", 100000, "hehehe"));
+		addPlayer(new Player("czesiek", 100000, "hahaha"));
+		addPlayer(new Player("krzysiek", 100000, "hyhyhy"));
+		addPlayer(new Player("heniek", 100000, "huehue"));
+		addPlayer(new Player("zdzisiek", 100000, "husahusahu"));
+		addPlayer(new Player("romek", 100000, "haaaaaaah"));
+		addPlayer(new Player("davy", 100000, "jakis madry opis"));
 	}
 
 	public int size() {
@@ -40,13 +55,11 @@ public class PlayerListDAO {
 	}
 
 	public Player getUserByNick(String nickname) throws NonExistingPlayerException {
-		for (Map.Entry<String, Player> player : playerMap.entrySet()) {
-			if (player.getKey().equals(nickname)) {
-				return player.getValue();
-			}
+		if(!playerMap.containsKey(nickname)){
+			throw new NonExistingPlayerException();
 		}
-
-		throw new NonExistingPlayerException();
+		return playerMap.get(nickname);
+		
 	}
 
 	public Map<String, PlayerTO> searchPlayersByRank(Rank rank) {

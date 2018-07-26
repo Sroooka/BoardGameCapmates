@@ -3,14 +3,17 @@ package com.capgemini.jstk.BoardGameCapmates.repository;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.springframework.stereotype.Repository;
+
 import com.capgemini.jstk.BoardGameCapmates.exceptions.BoardGameAlreadyExistsInDatabase;
 import com.capgemini.jstk.BoardGameCapmates.exceptions.NotExistingBoardGameException;
 import com.capgemini.jstk.BoardGameCapmates.model.BoardGame;
 
-public class BoardGameListDAO {
+@Repository
+public class BoardGameMapDAO {
 	private Map<String, BoardGame> gameMap;
 	
-	BoardGameListDAO() {
+	BoardGameMapDAO() {
 		this.gameMap = new HashMap<>();
 	}
 	
