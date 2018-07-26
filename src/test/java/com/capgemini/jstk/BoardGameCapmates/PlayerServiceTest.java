@@ -41,9 +41,11 @@ public class PlayerServiceTest {
 		// given
 		Mockito.when(playerMapDAO.size()).thenReturn(500);
 		// when
-		playerService.getPlayersAmount();
+		int amount = playerService.getPlayersAmount();
 		// then
 		Mockito.verify(playerMapDAO).size();
+		assertEquals(amount, 500);
+		
 	}
 
 	@Test
@@ -192,7 +194,7 @@ public class PlayerServiceTest {
 		// when
 		playerService.getChallengesThrownBySystem("Sroka");
 		// then
-		Mockito.verify(playerMapDAO, atLeast(1)).getUserByNick(Mockito.any());
+		Mockito.verify(playerMapDAO).getUserByNick(Mockito.any());
 	}
 
 	@Test

@@ -7,6 +7,7 @@ import com.capgemini.jstk.BoardGameCapmates.model.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.annotation.PostConstruct;
 
@@ -62,14 +63,9 @@ public class PlayerMapDAO {
 		
 	}
 
-	public Map<String, PlayerTO> searchPlayersByRank(Rank rank) {
-		Map<String, PlayerTO> returnMap = new HashMap<>();
-		for (Map.Entry<String, Player> entry : playerMap.entrySet()) {
-			if (entry.getValue().getRank() == rank) {
-				returnMap.put(entry.getKey(), makeTOFromPlayer(entry.getValue()));
-			}
-		}
-		return returnMap;
+	public List<Player> searchPlayersByRank(Rank rank) {
+		return playerMap.entrySet().stream().filter(e -> e.getValue().getRank() == rank).map(Map.Entry::getValue).collect(Collectors.toList());
+
 	}
 
 	public Map<String, PlayerTO> searchPlayersByGame(BoardGame boardGame) {

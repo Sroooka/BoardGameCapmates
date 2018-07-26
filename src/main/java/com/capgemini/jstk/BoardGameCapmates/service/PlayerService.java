@@ -20,6 +20,7 @@ import static com.capgemini.jstk.BoardGameCapmates.mapper.PlayerMapper.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.annotation.PostConstruct;
 
@@ -37,7 +38,7 @@ public class PlayerService {
 	public int getPlayersAmount() {
 		return playerDAO.size();
 	}
-	
+
 	public PlayerTO addPlayer(String nickname) throws ExistingNicknameException {
 		System.out.println("Im in addPlayer");
 
@@ -59,8 +60,9 @@ public class PlayerService {
 
 	}
 
-	public Map<String, PlayerTO> searchPlayersByRank(Rank rank) {
-		return playerDAO.searchPlayersByRank(rank);
+	public List<PlayerTO> searchPlayersByRank(Rank rank) {
+		return playerDAO.searchPlayersByRank(rank).stream().map(PlayerMapper::makeTOFromPlayer)
+				.collect(Collectors.toList());
 	}
 
 	public Map<String, PlayerTO> searchPlayersByGame(BoardGame game) {
@@ -88,11 +90,9 @@ public class PlayerService {
 		String ownerNickname = challengeTO.getOwnerNickname();
 		for (int i = 0; i < playerNicknamesList.size(); i++) {
 			if (playerNicknamesList.get(i).equals(ownerNickname)) {
-				playerDAO.getUserByNick(playerNicknamesList.get(i))
-						.addThrowInvitation(challengeTO);
+				playerDAO.getUserByNick(playerNicknamesList.get(i)).addThrowInvitation(challengeTO);
 			} else {
-				playerDAO.getUserByNick(playerNicknamesList.get(i))
-						.addNewInvitation(challengeTO);
+				playerDAO.getUserByNick(playerNicknamesList.get(i)).addNewInvitation(challengeTO);
 			}
 		}
 
@@ -112,9 +112,8 @@ public class PlayerService {
 
 	public List<ChallengeTO> getChallengesThrownBySystem(String myNickname) throws NonExistingPlayerException {
 		List<ChallengeTO> returnList = new ArrayList<>();
-		playerDAO.getUserByNick(myNickname).getNewInvitations();
-		for(ChallengeTO challenge : playerDAO.getUserByNick(myNickname).getNewInvitations()){
-			if(challenge.getChallengeCreator() == ChallengeCreator.SYSTEM){
+		for (ChallengeTO challenge : playerDAO.getUserByNick(myNickname).getNewInvitations()) {
+			if (challenge.getChallengeCreator() == ChallengeCreator.SYSTEM) {
 				returnList.add(challenge);
 			}
 		}
@@ -124,20 +123,20 @@ public class PlayerService {
 	public List<PlayerTO> checkOpponentInfo(ChallengeTO challengeTO) throws NonExistingPlayerException {
 		List<PlayerTO> playersList = new ArrayList<>();
 		List<String> playersNicknames = challengeTO.getListOfPlayerNicknames();
-		for(int i=0; i<challengeTO.getNumberOfPlayers();i++){
-			if(!challengeTO.getOwnerNickname().equals(playersNicknames.get(i))){
+		for (int i = 0; i < challengeTO.getNumberOfPlayers(); i++) {
+			if (!challengeTO.getOwnerNickname().equals(playersNicknames.get(i))) {
 				playersList.add(PlayerMapper.makeTOFromPlayer(playerDAO.getUserByNick(playersNicknames.get(i))));
 			}
 		}
 		return playersList;
 	}
 
-	public void addScore(String nickname, int points){
+	public void addScore(String nickname, int points) {
 		playerDAO.addScore(nickname, points);
 	}
-	
-	public void addGameWhichTookPlace(String nickname, GameTO game){
+
+	public void addGameWhichTookPlace(String nickname, GameTO game) {
 		playerDAO.addGameWhichTookPlace(nickname, game);
 	}
-	
+
 }
