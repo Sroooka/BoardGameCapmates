@@ -28,6 +28,17 @@ public class ChallengeTO {
 		this.invitationMessage = "";
 	}
 	
+	public ChallengeTO(BoardGame game,int numberOfPlayers) {
+		this.game = null;
+		this.gameStart = null;
+		this.gameEnd = null;
+		this.ownerNickname = null;
+		this.challengeCreator = null;
+		this.numberOfPlayers = 0;
+		this.listOfPlayerNicknames = new ArrayList<String>();
+		this.gameResult = new ArrayList<String>();
+		this.invitationMessage = "";
+	}
 	
 	
 	public int getChallengeID() {

@@ -1,4 +1,5 @@
 package com.capgemini.jstk.BoardGameCapmates.repository;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -12,6 +13,7 @@ import com.capgemini.jstk.BoardGameCapmates.exceptions.NotSelectedBoardGame;
 import com.capgemini.jstk.BoardGameCapmates.exceptions.TooMuchPlayersException;
 import com.capgemini.jstk.BoardGameCapmates.mapper.ChallengeMapper;
 import com.capgemini.jstk.BoardGameCapmates.mapper.GameMapper;
+import com.capgemini.jstk.BoardGameCapmates.model.BoardGame;
 import com.capgemini.jstk.BoardGameCapmates.model.Challenge;
 import com.capgemini.jstk.BoardGameCapmates.model.ChallengeTO;
 import com.capgemini.jstk.BoardGameCapmates.model.GameTO;
@@ -25,8 +27,14 @@ public class ChallengeMapDAO {
 		this.challengeMap = new HashMap<>();
 		this.gameID = 0;
 	}
-
-	public void addChallenge(ChallengeTO challengeTO) throws NotSelectedBoardGame, TooMuchPlayersException, NotEnoughPlayersException {
+public Challenge getChallengeByID(int ID) throws NonExistingChallengeException{
+	if(!challengeMap.containsKey(ID)){
+		throw new NonExistingChallengeException();
+	}
+	return challengeMap.get(ID);
+}
+	public void addChallenge(ChallengeTO challengeTO)
+			throws NotSelectedBoardGame, TooMuchPlayersException, NotEnoughPlayersException {
 		Challenge challenge = ChallengeMapper.makeChallengeFromTO(challengeTO);
 		challengeMap.put(gameID, challenge);
 		challengeMap.get(gameID).setChallengeID(gameID);
@@ -40,15 +48,20 @@ public class ChallengeMapDAO {
 		gameID++;
 	}
 
-	
-	public ChallengeTO getChallengeByID(Integer challengeID) {
-		return ChallengeMapper.makeTOFromChallenge(challengeMap.get(challengeID));
+	public void init() throws NotSelectedBoardGame, TooMuchPlayersException, NotEnoughPlayersException {
+		addChallenge(new ChallengeTO(new BoardGame("Chess", 2, 2), 2));
+		addChallenge(new ChallengeTO(new BoardGame("X and O", 2, 2), 2));
+		addChallenge(new ChallengeTO(new BoardGame("Poker", 2, 8), 6));
+	}
+
+	public void clear() {
+		challengeMap.clear();
 	}
 
 	public void acceptChallenge(String nickname, Challenge challenge, String comment)
 			throws NonExistingChallengeException {
 		for (Map.Entry<Integer, Challenge> entry : challengeMap.entrySet()) {
-			if (entry.getKey()==challenge.getChallengeID()) {
+			if (entry.getKey() == challenge.getChallengeID()) {
 				entry.getValue().addAcceptation(nickname, comment);
 			}
 		}
@@ -58,7 +71,7 @@ public class ChallengeMapDAO {
 	public void rejectChallenge(String nickname, Challenge challenge, String comment)
 			throws NonExistingChallengeException {
 		for (Map.Entry<Integer, Challenge> entry : challengeMap.entrySet()) {
-			if (entry.getKey()==challenge.getChallengeID()) {
+			if (entry.getKey() == challenge.getChallengeID()) {
 				entry.getValue().rejectAcceptation(nickname, comment);
 			}
 		}
@@ -79,20 +92,36 @@ public class ChallengeMapDAO {
 		Challenge currentChallenge = challengeMap.get(challengeTO.getChallengeID());
 		currentChallenge.getTheGameTookPlace().startGame();
 		return currentChallenge.getTheGameTookPlace().getListOfPlayerNicknames();
-		
+
 	}
 
 	public void commentGameWhichTookPlace(String nickname, ChallengeTO challengeTO, String comment) {
 		Challenge currentChallenge = challengeMap.get(challengeTO.getChallengeID());
 		currentChallenge.getTheGameTookPlace().addPlayerComment(nickname, comment);
 	}
-	
-	public GameTO getGameByChallengeTO(ChallengeTO challenge){
+
+	public GameTO getGameByChallengeTO(ChallengeTO challenge) {
 		return GameMapper.makeTOFromGame(challengeMap.get(challenge.getChallengeID()).getTheGameTookPlace());
 	}
 
-	public Object size() {
+	public int size() {
 		return this.challengeMap.size();
+	}
+
+	public Map<Integer, Challenge> getChallengeMap() {
+		return challengeMap;
+	}
+
+	public void setChallengeMap(Map<Integer, Challenge> challengeMap) {
+		this.challengeMap = challengeMap;
+	}
+
+	public int getGameID() {
+		return gameID;
+	}
+
+	public void setGameID(int gameID) {
+		this.gameID = gameID;
 	}
 
 }
