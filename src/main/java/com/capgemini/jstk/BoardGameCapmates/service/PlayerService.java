@@ -22,8 +22,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import javax.annotation.PostConstruct;
-
 @Service
 public class PlayerService {
 
@@ -65,16 +63,19 @@ public class PlayerService {
 				.collect(Collectors.toList());
 	}
 
-	public Map<String, PlayerTO> searchPlayersByGame(BoardGame game) {
-		return playerDAO.searchPlayersByGame(game);
+	public List<PlayerTO> searchPlayersByGame(BoardGame game) {
+		return playerDAO.searchPlayersByGame(game).stream().map(PlayerMapper::makeTOFromPlayer)
+				.collect(Collectors.toList());
 	}
 
-	public void setPlayerDescription(String nickname, String description) throws NonExistingPlayerException {
+	public void setPlayerDescription(String nickname, String description)
+			throws NonExistingPlayerException, ExistingNicknameException {
 		playerDAO.setPlayerDescription(nickname, description);
 	}
 
-	public Map<String, PlayerTO> searchPlayersByAbilityTime(AbilityTime abilityTime) {
-		return playerDAO.searchPlayersByAbilityTime(abilityTime);
+	public List<PlayerTO> searchPlayersByAbilityTime(AbilityTime abilityTime) {
+		return playerDAO.searchPlayersByAbilityTime(abilityTime).stream().map(PlayerMapper::makeTOFromPlayer)
+				.collect(Collectors.toList());
 	}
 
 	public void acceptInvitation(String nickname, ChallengeTO challengeTO) throws NonExistingPlayerException {

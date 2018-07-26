@@ -2,7 +2,6 @@ package com.capgemini.jstk.BoardGameCapmates.model;
 
 import java.util.ArrayList;
 import java.util.List;
-import org.springframework.stereotype.Component;
 
 public class Player {
 	private String nickname;
@@ -51,7 +50,6 @@ public class Player {
 	public Player(String nickname, int points, String playerDescription) {
 		this.nickname = nickname;
 		this.points = points;
-		this.computeRank();
 		this.playerDescription = playerDescription;
 		this.ownedGames = new ArrayList<BoardGame>();
 		this.newInvitations = new ArrayList<ChallengeTO>();
@@ -61,6 +59,7 @@ public class Player {
 		this.playerBoardGames = new ArrayList<BoardGame>();
 		this.myPlayedGamesInChallenges = new ArrayList<GameTO>();
 		abilityTime = new AbilityTime();
+		this.computeRank();
 	}
 
 	public void addGameWhichTookPlace(GameTO game){
@@ -180,40 +179,43 @@ public class Player {
 	}
 
 	private void computeRank() {
+		System.out.println(this.points);
 		if (this.points < 10) {
 			this.rank = Rank.NEWBIE;
 		}
-		if (this.points < 20) {
+		else if (this.points < 20) {
 			this.rank = Rank.WEAKLING;
 		}
-		if (this.points < 40) {
+		else if (this.points < 40) {
 			this.rank = Rank.BEGINNER;
 		}
-		if (this.points < 80) {
+		else if (this.points < 80) {
 			this.rank = Rank.EXPERIENCED_BEGINNER;
 		}
-		if (this.points < 160) {
+		else if (this.points < 160) {
 			this.rank = Rank.MIDDLEBROW;
 		}
-		if (this.points < 320) {
+		else if (this.points < 320) {
 			this.rank = Rank.EXPERIENCED_MIDDLEBORW;
 		}
-		if (this.points < 640) {
+		else if (this.points < 640) {
 			this.rank = Rank.ADVANCED;
 		}
-		if (this.points < 1280) {
+		else if (this.points < 1280) {
 			this.rank = Rank.PROFESSIONAL;
 		}
-		if (this.points < 2560) {
+		else if (this.points < 2560) {
 			this.rank = Rank.MASTER;
 		}
-		if (this.points < 5120) {
+		else if (this.points < 5120) {
 			this.rank = Rank.ULTRA_MASTER;
 		}
-		if (this.points < 99999) {
+		else if (this.points < 99999) {
 			this.rank = Rank.ULTRA_TURBO_MASTER;
+		}else{
+			this.rank = Rank.GOD_OF_BOARD_GAMES;
 		}
-		this.rank = Rank.GOD_OF_BOARD_GAMES;
+		
 	}
 
 	public void addPoints(int points) {

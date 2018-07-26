@@ -9,24 +9,37 @@ public class AbilityTime {
 
 	public AbilityTime() {
 		ability = new LocalTime[7][2];
-		Arrays.fill(ability, null);
+		for (LocalTime[] days : ability) {
+			for (LocalTime time : days) {
+				time = null;
+			}
+		}
 		numberOfDaysAvaliable = 0;
 	}
 
 	public void setAbility(int dayOfWeek, int fromHours, int fromMinutes, int toHours, int toMinutes) {
 		checkRange(dayOfWeek, fromHours, fromMinutes, toHours, toMinutes);
+		System.out.println(LocalTime.of(fromHours, fromMinutes));
+		System.out.println(LocalTime.of(toHours, toMinutes));
+		System.out.println(ability[dayOfWeek - 1][0]);
+		System.out.println(ability[dayOfWeek - 1][1]);
 		ability[dayOfWeek - 1][0] = LocalTime.of(fromHours, fromMinutes);
 		ability[dayOfWeek - 1][1] = LocalTime.of(toHours, toMinutes);
 		numberOfDaysAvaliable++;
 	}
 
 	public void clearAbility() {
-		Arrays.fill(ability, null);
+		for (LocalTime[] days : ability) {
+			for (LocalTime time : days) {
+				time = null;
+			}
+		}
 		numberOfDaysAvaliable = 0;
 	}
 
 	public void clearAbility(int dayOfWeek) {
-		Arrays.fill(ability[dayOfWeek - 1], null);
+		ability[dayOfWeek - 1][0] = null;
+		ability[dayOfWeek - 1][1] = null;
 		numberOfDaysAvaliable--;
 	}
 
@@ -37,9 +50,11 @@ public class AbilityTime {
 	private void checkRange(int dayOfWeek, int fromHours, int fromMinutes, int toHours, int toMinutes) {
 		if (fromHours < 0 || fromHours > 23 || toHours < 0 || toHours > 23 || fromMinutes < 0 || fromMinutes > 59
 				|| toMinutes < 0 || toMinutes > 59 || dayOfWeek < 1 || dayOfWeek > 7) {
+			System.out.println("fromHours" + fromHours + "toHours" + toHours + "fromMinutes" + fromMinutes + "toMinutes"
+					+ toMinutes + "dayOfWeek" + dayOfWeek);
 			throw new IllegalArgumentException();
 		}
-		if (fromHours < toHours) {
+		if (fromHours > toHours) {
 			throw new IllegalArgumentException();
 		}
 		if (fromHours == toHours) {
@@ -66,11 +81,11 @@ public class AbilityTime {
 				continue;
 			}
 			if (opponentBeginTime.isAfter(myBeginTime)) {
-				matchedAbility.setAbility(i, opponentBeginTime.getHour(), opponentBeginTime.getMinute(),
+				matchedAbility.setAbility(i + 1, opponentBeginTime.getHour(), opponentBeginTime.getMinute(),
 						myEndTime.getHour(), myEndTime.getMinute());
 			} else {
-				matchedAbility.setAbility(i, myBeginTime.getHour(), myBeginTime.getMinute(), opponentEndTime.getHour(),
-						opponentEndTime.getMinute());
+				matchedAbility.setAbility(i + 1, myBeginTime.getHour(), myBeginTime.getMinute(),
+						opponentEndTime.getHour(), opponentEndTime.getMinute());
 			}
 
 		}

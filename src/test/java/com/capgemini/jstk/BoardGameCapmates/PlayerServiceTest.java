@@ -71,7 +71,10 @@ public class PlayerServiceTest {
 	@Test
 	public void shouldSearchPlayersByRank() {
 		// given
-		Mockito.when(playerMapDAO.searchPlayersByRank(Mockito.any())).thenReturn(null);
+		Player player = new Player();
+		List<Player> list = new ArrayList<>();
+		list.add(player);
+		Mockito.when(playerMapDAO.searchPlayersByRank(Mockito.any())).thenReturn(list);
 		// when
 		playerService.searchPlayersByRank(Rank.GOD_OF_BOARD_GAMES);
 		// then
@@ -81,7 +84,8 @@ public class PlayerServiceTest {
 	@Test
 	public void shouldSearchPlayersByGame() {
 		// given
-		Mockito.when(playerMapDAO.searchPlayersByGame(Mockito.any())).thenReturn(null);
+		List<Player> list = new ArrayList<>();
+		Mockito.when(playerMapDAO.searchPlayersByGame(Mockito.any())).thenReturn(list);
 		// when
 		playerService.searchPlayersByGame(new BoardGame());
 		// then
@@ -89,7 +93,7 @@ public class PlayerServiceTest {
 	}
 
 	@Test
-	public void shouldSetPlayerDescription() throws NonExistingPlayerException {
+	public void shouldSetPlayerDescription() throws NonExistingPlayerException, ExistingNicknameException {
 		// given
 		Mockito.when(playerMapDAO.searchPlayersByGame(Mockito.any())).thenReturn(null);
 		// when
@@ -102,7 +106,8 @@ public class PlayerServiceTest {
 	public void shouldSearchPlayerByAbilityTime() throws NonExistingPlayerException {
 		// given
 		AbilityTime ability = new AbilityTime();
-		Mockito.when(playerMapDAO.searchPlayersByAbilityTime(Mockito.any())).thenReturn(null);
+		List<Player> list = new ArrayList<>();
+		Mockito.when(playerMapDAO.searchPlayersByAbilityTime(Mockito.any())).thenReturn(list);
 		// when
 		playerService.searchPlayersByAbilityTime(ability);
 		// then

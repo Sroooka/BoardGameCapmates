@@ -10,6 +10,7 @@ public class BoardGame {
 		this.minPlayers = 0;
 		this.maxPlayers = 0;
 	}
+	
 	public BoardGame(String name, int minPlayers, int maxPlayers) {
 		this.name = name;
 		this.minPlayers = minPlayers;

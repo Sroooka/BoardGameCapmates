@@ -4,6 +4,7 @@ import com.capgemini.jstk.BoardGameCapmates.exceptions.ExistingNicknameException
 import com.capgemini.jstk.BoardGameCapmates.exceptions.NonExistingPlayerException;
 import com.capgemini.jstk.BoardGameCapmates.model.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,15 +28,23 @@ public class PlayerMapDAO {
 	@PostConstruct
 	public void init() throws ExistingNicknameException {
 		addPlayer(new Player("Sroka", 100000, "ten ktory to pisal"));
-		addPlayer(new Player("szymek", 100000, "hehehe"));
-		addPlayer(new Player("czesiek", 100000, "hahaha"));
-		addPlayer(new Player("krzysiek", 100000, "hyhyhy"));
-		addPlayer(new Player("heniek", 100000, "huehue"));
-		addPlayer(new Player("zdzisiek", 100000, "husahusahu"));
-		addPlayer(new Player("romek", 100000, "haaaaaaah"));
-		addPlayer(new Player("davy", 100000, "jakis madry opis"));
+		addPlayer(new Player("szymek", 123, "hehehe"));
+		addPlayer(new Player("czesiek", 42, "hahaha"));
+		addPlayer(new Player("krzysiek", 1252, "hyhyhy"));
+		addPlayer(new Player("heniek", 1521, "huehue"));
+		addPlayer(new Player("zdzisiek", 124, "husahusahu"));
+		addPlayer(new Player("romek", 554, "haaaaaaah"));
+		addPlayer(new Player("god1", 100000, ""));
+		addPlayer(new Player("god2", 100000, ""));
+		addPlayer(new Player("god3", 100000, ""));
+		addPlayer(new Player("god4", 100000, ""));
+		addPlayer(new Player("god5", 100000, ""));
 	}
 
+	public void clear(){
+		playerMap.clear();
+	}
+	
 	public int size() {
 		return playerMap.size();
 	}
@@ -44,15 +53,20 @@ public class PlayerMapDAO {
 		return playerMap.isEmpty();
 	}
 
-	public void addPlayer(Player newPlayer) throws ExistingNicknameException{
+	public boolean addPlayer(Player newPlayer) throws ExistingNicknameException{
 		if(playerMap.containsKey(newPlayer.getNickname())){
 			throw new ExistingNicknameException();
 		}
 		playerMap.put(newPlayer.getNickname(), newPlayer);
+		return true;
 	}
 	
-	public void updatePlayer(Player editedPlayer) {
+	public boolean updatePlayer(Player editedPlayer) throws  NonExistingPlayerException {
+		if(!playerMap.containsKey(editedPlayer.getNickname())){
+			throw new NonExistingPlayerException();
+		}
 		playerMap.put(editedPlayer.getNickname(), editedPlayer);
+		return true;
 	}
 
 	public Player getUserByNick(String nickname) throws NonExistingPlayerException {
@@ -63,42 +77,42 @@ public class PlayerMapDAO {
 		
 	}
 
-	public List<Player> searchPlayersByRank(Rank rank) {
-		return playerMap.entrySet().stream().filter(e -> e.getValue().getRank() == rank).map(Map.Entry::getValue).collect(Collectors.toList());
-
+	public List<Player> searchPlayersByRank(Rank expectedRank) {
+		return playerMap.entrySet().stream().filter(e -> e.getValue().getRank().equals(expectedRank)).map(Map.Entry::getValue).collect(Collectors.toList());
 	}
 
-	public Map<String, PlayerTO> searchPlayersByGame(BoardGame boardGame) {
-		Map<String, PlayerTO> returnMap = new HashMap<>();
+	public List<Player> searchPlayersByGame(BoardGame boardGame) {
+		List<Player> returnList = new ArrayList<>();
+		
 		for (Map.Entry<String, Player> entry : playerMap.entrySet()) {
+			System.out.println("searchPlayersByGame!!!!!!!!!!!!!!!!!!!!!!!!!!");
 			List<BoardGame> gameList = entry.getValue().getOwnedGames();
 			for (BoardGame game : gameList) {
+				System.out.println(game.getName());
 				if (game.getName() == boardGame.getName()) {
-					returnMap.put(entry.getKey(), makeTOFromPlayer(entry.getValue()));
+					returnList.add(entry.getValue());
 				}
 			}
 		}
-		return returnMap;
+		return returnList;
 	}
 
 
-	public void setPlayerDescription(String nickname, String description) throws NonExistingPlayerException {
+	public void setPlayerDescription(String nickname, String description) throws NonExistingPlayerException, ExistingNicknameException {
 		Player editedPlayer = this.getUserByNick(nickname);
 		editedPlayer.setPlayerDescription(description);
 		this.updatePlayer(editedPlayer);
 	}
 
-	public Map<String, PlayerTO> searchPlayersByAbilityTime(AbilityTime abilityTime) {
-		Map<String, PlayerTO> returnMap = new HashMap<>();
+	public List<Player> searchPlayersByAbilityTime(AbilityTime abilityTime) {
+		List<Player> returnMap = new ArrayList<>();
 		for (Map.Entry<String, Player> entry : playerMap.entrySet()) {
 			AbilityTime matchedAbility = abilityTime.matchAbilityTime(entry.getValue().getAbilityTime());
 			if (matchedAbility.getNumberOfDaysAvaliable() != 0) {
-				returnMap.put(entry.getKey(), makeTOFromPlayer(entry.getValue()));
+				returnMap.add(entry.getValue());
 			}
 		}
-		//TODO CONVERT TO FILTER
 		return returnMap;
-
 	}
 
 	public void addInvitationToPlayerByNickname(String nickname, ChallengeTO challengeTO) throws NonExistingPlayerException {
