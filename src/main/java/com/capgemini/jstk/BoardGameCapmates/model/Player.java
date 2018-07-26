@@ -17,6 +17,7 @@ public class Player {
 	private List<ChallengeTO> acceptedInvitations;
 	private List<ChallengeTO> rejectedInvitations;
 	private List<BoardGame> playerBoardGames;
+	private List<GameTO> myPlayedGamesInChallenges;
 
 	public Player() {
 		this.nickname = null;
@@ -29,6 +30,7 @@ public class Player {
 		this.acceptedInvitations = new ArrayList<ChallengeTO>();
 		this.rejectedInvitations = new ArrayList<ChallengeTO>();
 		this.playerBoardGames = new ArrayList<BoardGame>();
+		this.myPlayedGamesInChallenges = new ArrayList<GameTO>();
 		abilityTime = new AbilityTime();
 	}
 
@@ -38,7 +40,12 @@ public class Player {
 		this.rank = Rank.NEWBIE;
 		this.playerDescription = "";
 		this.ownedGames = new ArrayList<BoardGame>();
+		this.newInvitations = new ArrayList<ChallengeTO>();
+		this.thrownInvitations = new ArrayList<ChallengeTO>();
+		this.acceptedInvitations = new ArrayList<ChallengeTO>();
+		this.rejectedInvitations = new ArrayList<ChallengeTO>();
 		this.playerBoardGames = new ArrayList<BoardGame>();
+		this.myPlayedGamesInChallenges = new ArrayList<GameTO>();
 		abilityTime = new AbilityTime();
 	}
 
@@ -53,9 +60,14 @@ public class Player {
 		this.acceptedInvitations = new ArrayList<ChallengeTO>();
 		this.rejectedInvitations = new ArrayList<ChallengeTO>();
 		this.playerBoardGames = new ArrayList<BoardGame>();
+		this.myPlayedGamesInChallenges = new ArrayList<GameTO>();
 		abilityTime = new AbilityTime();
 	}
 
+	public void addGameWhichTookPlace(GameTO game){
+		myPlayedGamesInChallenges.add(game);
+	}
+	
 	public void addNewInvitation(ChallengeTO challenge) {
 		newInvitations.add(challenge);
 	}
@@ -203,5 +215,10 @@ public class Player {
 			this.rank = Rank.ULTRA_TURBO_MASTER;
 		}
 		this.rank = Rank.GOD_OF_BOARD_GAMES;
+	}
+
+	public void addPoints(int points) {
+		this.points+=points;
+		this.computeRank();
 	}
 }

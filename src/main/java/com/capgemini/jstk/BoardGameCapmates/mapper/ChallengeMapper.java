@@ -13,6 +13,7 @@ public class ChallengeMapper {
 	public static Challenge makeChallengeFromTO(ChallengeTO newChallengeTO) throws NotSelectedBoardGame, TooMuchPlayersException, NotEnoughPlayersException {
 		Challenge challenge = new Challenge();
 		challenge.setChallengeCreator(newChallengeTO.getChallengeCreator());
+		challenge.setChallengeID(newChallengeTO.getChallengeID());
 		challenge.setOwnerNickname(newChallengeTO.getOwnerNickname());
 		challenge.setGame(newChallengeTO.getGame());
 		challenge.setGameStart(newChallengeTO.getGameStart());
@@ -27,6 +28,7 @@ public class ChallengeMapper {
 	public static ChallengeTO makeTOFromChallenge(Challenge newChallenge) {
 		ChallengeTO challenge = new ChallengeTO();
 		challenge.setChallengeCreator(newChallenge.getChallengeCreator());
+		challenge.setChallengeID(newChallenge.getChallengeID());
 		challenge.setOwnerNickname(newChallenge.getOwnerNickname());
 		challenge.setGame(newChallenge.getGame());
 		challenge.setGameEnd(newChallenge.getGameEnd());

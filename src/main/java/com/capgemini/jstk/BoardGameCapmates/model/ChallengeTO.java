@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ChallengeTO {
+	private int challengeID;
 	private BoardGame game;
 	private int numberOfPlayers;
 	private List<String> listOfPlayerNicknames;
@@ -27,6 +28,20 @@ public class ChallengeTO {
 		this.invitationMessage = "";
 	}
 	
+	
+	
+	public int getChallengeID() {
+		return challengeID;
+	}
+
+
+
+	public void setChallengeID(int challengeID) {
+		this.challengeID = challengeID;
+	}
+
+
+
 	public String getInvitationMessage() {
 		return invitationMessage;
 	}

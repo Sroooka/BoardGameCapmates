@@ -5,13 +5,12 @@ import org.springframework.stereotype.Service;
 
 import com.capgemini.jstk.BoardGameCapmates.exceptions.ExistingNicknameException;
 import com.capgemini.jstk.BoardGameCapmates.exceptions.NonExistingPlayerException;
-import com.capgemini.jstk.BoardGameCapmates.mapper.ChallengeMapper;
 import com.capgemini.jstk.BoardGameCapmates.mapper.PlayerMapper;
 import com.capgemini.jstk.BoardGameCapmates.model.AbilityTime;
 import com.capgemini.jstk.BoardGameCapmates.model.BoardGame;
-import com.capgemini.jstk.BoardGameCapmates.model.Challenge;
 import com.capgemini.jstk.BoardGameCapmates.model.ChallengeCreator;
 import com.capgemini.jstk.BoardGameCapmates.model.ChallengeTO;
+import com.capgemini.jstk.BoardGameCapmates.model.GameTO;
 import com.capgemini.jstk.BoardGameCapmates.model.Player;
 import com.capgemini.jstk.BoardGameCapmates.model.PlayerTO;
 import com.capgemini.jstk.BoardGameCapmates.model.Rank;
@@ -53,7 +52,7 @@ public class PlayerService {
 	public int getPlayersAmount() {
 		return playerDAO.size();
 	}
-
+	
 	public PlayerTO addPlayer(String nickname) throws ExistingNicknameException {
 		System.out.println("Im in addPlayer");
 
@@ -91,24 +90,24 @@ public class PlayerService {
 		return playerDAO.searchPlayersByAbilityTime(abilityTime);
 	}
 
-	public void acceptInvitation(String nickname, Challenge challenge) throws NonExistingPlayerException {
-		playerDAO.getUserByNick(nickname).acceptInvitation(ChallengeMapper.makeTOFromChallenge(challenge));
+	public void acceptInvitation(String nickname, ChallengeTO challengeTO) throws NonExistingPlayerException {
+		playerDAO.getUserByNick(nickname).acceptInvitation(challengeTO);
 	}
 
-	public void rejectInvitation(String nickname, Challenge challenge) throws NonExistingPlayerException {
-		playerDAO.getUserByNick(nickname).rejectInvitation(ChallengeMapper.makeTOFromChallenge(challenge));
+	public void rejectInvitation(String nickname, ChallengeTO challengeTO) throws NonExistingPlayerException {
+		playerDAO.getUserByNick(nickname).rejectInvitation(challengeTO);
 	}
 
-	public void invitePlayers(Challenge challenge) throws NonExistingPlayerException {
-		List<String> playerNicknamesList = challenge.getListOfPlayerNicknames();
-		String ownerNickname = challenge.getOwnerNickname();
+	public void invitePlayers(ChallengeTO challengeTO) throws NonExistingPlayerException {
+		List<String> playerNicknamesList = challengeTO.getListOfPlayerNicknames();
+		String ownerNickname = challengeTO.getOwnerNickname();
 		for (int i = 0; i < playerNicknamesList.size(); i++) {
 			if (playerNicknamesList.get(i).equals(ownerNickname)) {
 				playerDAO.getUserByNick(playerNicknamesList.get(i))
-						.addThrowInvitation(ChallengeMapper.makeTOFromChallenge(challenge));
+						.addThrowInvitation(challengeTO);
 			} else {
 				playerDAO.getUserByNick(playerNicknamesList.get(i))
-						.addNewInvitation(ChallengeMapper.makeTOFromChallenge(challenge));
+						.addNewInvitation(challengeTO);
 			}
 		}
 
@@ -137,16 +136,23 @@ public class PlayerService {
 		return returnList;
 	}
 
-	public List<PlayerTO> checkOpponentInfo(Challenge challenge) throws NonExistingPlayerException {
+	public List<PlayerTO> checkOpponentInfo(ChallengeTO challengeTO) throws NonExistingPlayerException {
 		List<PlayerTO> playersList = new ArrayList<>();
-		List<String> playersNicknames = challenge.getListOfPlayerNicknames();
-		for(int i=0; i<challenge.getNumberOfPlayers();i++){
-			if(!challenge.getOwnerNickname().equals(playersNicknames.get(i))){
+		List<String> playersNicknames = challengeTO.getListOfPlayerNicknames();
+		for(int i=0; i<challengeTO.getNumberOfPlayers();i++){
+			if(!challengeTO.getOwnerNickname().equals(playersNicknames.get(i))){
 				playersList.add(PlayerMapper.makeTOFromPlayer(playerDAO.getUserByNick(playersNicknames.get(i))));
 			}
 		}
 		return playersList;
 	}
 
+	public void addScore(String nickname, int points){
+		playerDAO.addScore(nickname, points);
+	}
+	
+	public void addGameWhichTookPlace(String nickname, GameTO game){
+		playerDAO.addGameWhichTookPlace(nickname, game);
+	}
 	
 }

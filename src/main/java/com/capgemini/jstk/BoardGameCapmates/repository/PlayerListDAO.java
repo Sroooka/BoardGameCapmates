@@ -92,19 +92,27 @@ public class PlayerListDAO {
 
 	}
 
-	public void addInvitationToPlayerByNickname(String nickname, Integer challengeID) throws NonExistingPlayerException {
-		//this.getUserByNick(nickname).addInvitation(challengeID);
+	public void addInvitationToPlayerByNickname(String nickname, ChallengeTO challengeTO) throws NonExistingPlayerException {
+		this.getUserByNick(nickname).addNewInvitation(challengeTO);
 	}
 
-	public void acceptInvitationByNickname(String nickname, Integer challengeID) throws NonExistingPlayerException {
-		//this.getUserByNick(nickname).acceptInvitation(challengeID);
+	public void acceptInvitationByNickname(String nickname, ChallengeTO challengeTO) throws NonExistingPlayerException {
+		this.getUserByNick(nickname).acceptInvitation(challengeTO);
 	}
 	
-	public void rejectInvitationByNickname(String nickname, Integer challengeID) throws NonExistingPlayerException {
-		//this.getUserByNick(nickname).rejectInvitation(challengeID);
+	public void rejectInvitationByNickname(String nickname, ChallengeTO challengeTO) throws NonExistingPlayerException {
+		this.getUserByNick(nickname).rejectInvitation(challengeTO);
 	}
 	
-	public void addThrownInvitationByNickname(String nickname, Integer challengeID) throws NonExistingPlayerException {
-		//this.getUserByNick(nickname).throwInvitation(challengeID);
+	public void addThrownInvitationByNickname(String nickname, ChallengeTO challengeTO) throws NonExistingPlayerException {
+		this.getUserByNick(nickname).addThrowInvitation(challengeTO);
+	}
+
+	public void addScore(String nickname, int points){
+		playerMap.get(nickname).addPoints(points);
+	}
+	
+	public void addGameWhichTookPlace(String nickname, GameTO game){
+		playerMap.get(nickname).addGameWhichTookPlace(game);
 	}
 }

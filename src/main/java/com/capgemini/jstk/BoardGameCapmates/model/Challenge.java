@@ -9,6 +9,7 @@ import com.capgemini.jstk.BoardGameCapmates.exceptions.NotSelectedBoardGame;
 import com.capgemini.jstk.BoardGameCapmates.exceptions.TooMuchPlayersException;
 
 public class Challenge {
+	private int challengeID;
 	private BoardGame game;
 	private int numberOfPlayers;
 	private List<String> listOfPlayerNicknames;
@@ -21,6 +22,7 @@ public class Challenge {
 	private int responsesFromPlayers;
 	private List<String> comments;
 	private String invitationMessage;
+	private Game theGameTookPlace;
 
 	public Challenge() {
 		this.game = null;
@@ -72,6 +74,22 @@ public class Challenge {
 	}
 
 
+
+	public int getChallengeID() {
+		return challengeID;
+	}
+
+	public void setChallengeID(int challengeID) {
+		this.challengeID = challengeID;
+	}
+
+	public Game getTheGameTookPlace() {
+		return theGameTookPlace;
+	}
+
+	public void setTheGameTookPlace(Game theGameTookPlace) {
+		this.theGameTookPlace = theGameTookPlace;
+	}
 
 	public List<String> getComments() {
 		return comments;
