@@ -228,9 +228,9 @@ public class PlayerMapDAOTest {
 		// then
 		assertTrue(playerWithMatchedAbility.isEmpty());
 	}
-	
-	@Test (expected = IllegalArgumentException.class)
-	public void shouldThrowExceptionWhenAddingBadIndexes()
+
+	@Test(expected = IllegalArgumentException.class)
+	public void shouldThrowExceptionWhenAddingBadIndexesInSearchingByTime()
 			throws NonExistingPlayerException, ExistingNicknameException {
 		// given
 		Player player1 = new Player("Player1", 1000, "");
@@ -244,5 +244,105 @@ public class PlayerMapDAOTest {
 		// when
 		playerMapDAO.searchPlayersByAbilityTime(expectedAbility);
 		// then
+	}
+
+	@Test
+	public void shouldAddNewInvitationToPlayer() throws NonExistingPlayerException {
+		// given
+		ChallengeTO challenge = new ChallengeTO();
+		challenge.setChallengeCreator(ChallengeCreator.PLAYER);
+		challenge.setOwnerNickname("Someone");
+		challenge.setNumberOfPlayers(4);
+		challenge.setGame(new BoardGame("Dragons and wizards", 2, 6));
+		// when
+		playerMapDAO.addInvitationToPlayerByNickname("Sroka", challenge);
+		ChallengeTO playerChallenge = playerMapDAO.getUserByNick("Sroka").getNewInvitations().get(0);
+		// then
+		assertTrue(playerChallenge.getChallengeCreator().equals(ChallengeCreator.PLAYER));
+		assertTrue(playerChallenge.getOwnerNickname().equals("Someone"));
+		assertTrue(playerChallenge.getNumberOfPlayers() == 4);
+		assertTrue(playerChallenge.getGame().getName().equals("Dragons and wizards"));
+	}
+
+	@Test
+	public void shouldPlayerAcceptInvitationByNickname() throws NonExistingPlayerException {
+		// given
+		ChallengeTO challenge = new ChallengeTO();
+		challenge.setChallengeCreator(ChallengeCreator.PLAYER);
+		challenge.setOwnerNickname("Someone");
+		challenge.setNumberOfPlayers(4);
+		challenge.setGame(new BoardGame("Dragons and wizards", 2, 6));
+		playerMapDAO.addInvitationToPlayerByNickname("Sroka", challenge);
+		// when
+		playerMapDAO.acceptInvitationByNickname("Sroka", challenge);
+		ChallengeTO playerChallenge = playerMapDAO.getUserByNick("Sroka").getAcceptedInvitations().get(0);
+		// then
+		assertTrue(playerMapDAO.getUserByNick("Sroka").getNewInvitations().isEmpty());
+		assertTrue(playerChallenge.getChallengeCreator().equals(ChallengeCreator.PLAYER));
+		assertTrue(playerChallenge.getOwnerNickname().equals("Someone"));
+		assertTrue(playerChallenge.getNumberOfPlayers() == 4);
+		assertTrue(playerChallenge.getGame().getName().equals("Dragons and wizards"));
+	}
+
+	@Test
+	public void shouldPlayerRejectInvitationByNickname() throws NonExistingPlayerException {
+		// given
+		ChallengeTO challenge = new ChallengeTO();
+		challenge.setChallengeCreator(ChallengeCreator.PLAYER);
+		challenge.setOwnerNickname("Someone");
+		challenge.setNumberOfPlayers(4);
+		challenge.setGame(new BoardGame("Dragons and wizards", 2, 6));
+		playerMapDAO.addInvitationToPlayerByNickname("Sroka", challenge);
+		// when
+		playerMapDAO.rejectInvitationByNickname("Sroka", challenge);
+		ChallengeTO playerChallenge = playerMapDAO.getUserByNick("Sroka").getRejectedInvitations().get(0);
+		// then
+		assertTrue(playerMapDAO.getUserByNick("Sroka").getNewInvitations().isEmpty());
+		assertTrue(playerChallenge.getChallengeCreator().equals(ChallengeCreator.PLAYER));
+		assertTrue(playerChallenge.getOwnerNickname().equals("Someone"));
+		assertTrue(playerChallenge.getNumberOfPlayers() == 4);
+		assertTrue(playerChallenge.getGame().getName().equals("Dragons and wizards"));
+	}
+
+	@Test
+	public void shouldPlayerAddThrownInvitationByNickname() throws NonExistingPlayerException {
+		// given
+		ChallengeTO challenge = new ChallengeTO();
+		challenge.setChallengeCreator(ChallengeCreator.PLAYER);
+		challenge.setOwnerNickname("Someone");
+		challenge.setNumberOfPlayers(4);
+		challenge.setGame(new BoardGame("Dragons and wizards", 2, 6));
+
+		// when
+		playerMapDAO.addThrownInvitationByNickname("Sroka", challenge);
+		ChallengeTO playerChallenge = playerMapDAO.getUserByNick("Sroka").getThrownInvitations().get(0);
+		// then
+		assertTrue(playerMapDAO.getUserByNick("Sroka").getNewInvitations().isEmpty());
+		assertTrue(playerChallenge.getChallengeCreator().equals(ChallengeCreator.PLAYER));
+		assertTrue(playerChallenge.getOwnerNickname().equals("Someone"));
+		assertTrue(playerChallenge.getNumberOfPlayers() == 4);
+		assertTrue(playerChallenge.getGame().getName().equals("Dragons and wizards"));
+	}
+
+	@Test
+	public void shouldAddScoreToPlayer() throws NonExistingPlayerException {
+		// given
+		// when
+		playerMapDAO.addScore("Sroka", 100000);
+		// then
+		assertEquals(playerMapDAO.getUserByNick("Sroka").getPoints(), 200000);
+	}
+
+	@Test
+	public void shouldAddGameWhichTookPlaceToPlayer() throws NonExistingPlayerException {
+		// given
+		List<String> list = new ArrayList<>();
+		list.add("Sroka");
+		GameTO game = new GameTO(new BoardGame("Sroka bez oka", 1, 1), 1, list);
+		// when
+		playerMapDAO.addGameWhichTookPlace("Sroka", game);
+		GameTO gameCheck = playerMapDAO.getUserByNick("Sroka").getMyPlayedGamesInChallenges().get(0);
+		// then
+		assertEquals(gameCheck.getBoardGame().getName(), "Sroka bez oka");
 	}
 }

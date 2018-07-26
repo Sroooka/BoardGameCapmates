@@ -90,6 +90,16 @@ public class Player {
 		}
 	}
 
+	
+	
+	public List<GameTO> getMyPlayedGamesInChallenges() {
+		return myPlayedGamesInChallenges;
+	}
+
+	public void setMyPlayedGamesInChallenges(List<GameTO> myPlayedGamesInChallenges) {
+		this.myPlayedGamesInChallenges = myPlayedGamesInChallenges;
+	}
+
 	public List<BoardGame> getPlayerBoardGames() {
 		return playerBoardGames;
 	}
