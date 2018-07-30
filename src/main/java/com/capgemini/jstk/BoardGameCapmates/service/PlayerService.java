@@ -10,6 +10,7 @@ import com.capgemini.jstk.BoardGameCapmates.exceptions.NonExistingPlayerExceptio
 import com.capgemini.jstk.BoardGameCapmates.mapper.PlayerMapper;
 import com.capgemini.jstk.BoardGameCapmates.model.TO.ChallengeTO;
 import com.capgemini.jstk.BoardGameCapmates.model.TO.GameTO;
+import com.capgemini.jstk.BoardGameCapmates.model.TO.PlayerSearchTO;
 import com.capgemini.jstk.BoardGameCapmates.model.TO.PlayerTO;
 import com.capgemini.jstk.BoardGameCapmates.model.entity.AbilityTime;
 import com.capgemini.jstk.BoardGameCapmates.model.entity.BoardGame;
@@ -46,10 +47,15 @@ public class PlayerService {
 		return newPlayerTO;
 	}
 
+	public PlayerTO updatePlayer(PlayerTO newPlayerTO) throws NonExistingPlayerException {
+		Player newPlayer = PlayerMapper.makePlayerFromTO(newPlayerTO);
+		playerDAO.updatePlayer(newPlayer);
+		return newPlayerTO;
+	}
+
 	public PlayerTO getPlayerInformations(String nickname) throws NonExistingPlayerException {
 		Player player = playerDAO.getUserByNick(nickname);
 		return makeTOFromPlayer(player);
-
 	}
 
 	public List<PlayerTO> searchPlayersByRank(Rank rank) {
@@ -132,5 +138,62 @@ public class PlayerService {
 
 	public void addGameWhichTookPlace(String nickname, GameTO game) {
 		playerDAO.addGameWhichTookPlace(nickname, game);
+	}
+
+	public List<PlayerSearchTO> searchPlayersByCriteria(PlayerSearchTO searchedPlayer)
+			throws NonExistingPlayerException {
+		List<PlayerSearchTO> returnList = new ArrayList<>();
+		// first param
+		AbilityTime abilityTime = searchedPlayer.getAbilityTime();
+		List<Player> foundPlayersByAbilityTime = playerDAO.searchPlayersByAbilityTime(abilityTime);
+		// second param
+		Rank rank = searchedPlayer.getRank();
+		List<Player> foundPlayersByRank = playerDAO.searchPlayersByRank(rank);
+		// third param
+		List<BoardGame> ownedGames = searchedPlayer.getOwnedGames();
+		List<Player> foundPlayersByGames = new ArrayList<>();
+		for (BoardGame game : ownedGames) {
+			List<Player> playersWithGameOwned = playerDAO.searchPlayersByGame(game);
+			for (Player player : playersWithGameOwned) {
+				if (!foundPlayersByGames.contains(player)) {
+					foundPlayersByGames.add(player);
+				}
+			}
+		}
+
+		if (foundPlayersByAbilityTime.isEmpty() && foundPlayersByRank.isEmpty() && foundPlayersByGames.isEmpty()) {
+			throw new NonExistingPlayerException();
+		}
+
+		List<Player> allFoundPlayers = new ArrayList<>();
+
+		for (Player player : foundPlayersByAbilityTime) {
+			if (!allFoundPlayers.contains(player)) {
+				allFoundPlayers.add(player);
+			}
+		}
+		for (Player player : foundPlayersByRank) {
+			if (!allFoundPlayers.contains(player)) {
+				allFoundPlayers.add(player);
+			}
+		}
+		for (Player player : foundPlayersByGames) {
+			if (!allFoundPlayers.contains(player)) {
+				allFoundPlayers.add(player);
+			}
+		}
+
+		for (Player player : allFoundPlayers) {
+			if (foundPlayersByAbilityTime.contains(player) && foundPlayersByRank.contains(player)
+					&& foundPlayersByGames.contains(player)) {
+				returnList.add(PlayerMapper.makeSearchedPlayerFromPlayer(player));
+			}
+		}
+		
+		if(returnList.isEmpty()){
+			throw new NonExistingPlayerException();
+		}
+		
+		return returnList;
 	}
 }
