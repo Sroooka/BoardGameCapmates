@@ -2,11 +2,11 @@ package com.capgemini.jstk.BoardGameCapmates.exceptions;
 
 import java.util.Date;
 
-public class Error {
+public class ErrorMessage {
 	private Date date;
 	private String error;
 
-	public Error(String error) {
+	public ErrorMessage(String error) {
 		this.date = new Date();
 		this.error = error;
 	}

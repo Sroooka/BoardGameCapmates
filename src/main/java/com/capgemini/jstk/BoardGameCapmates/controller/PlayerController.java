@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.capgemini.jstk.BoardGameCapmates.exceptions.ErrorMessage;
 import com.capgemini.jstk.BoardGameCapmates.exceptions.NonExistingPlayerException;
 import com.capgemini.jstk.BoardGameCapmates.model.TO.PlayerSearchTO;
 import com.capgemini.jstk.BoardGameCapmates.model.TO.PlayerTO;
@@ -34,49 +35,43 @@ public class PlayerController {
 	@Autowired
 	public PlayerController(PlayerService playerService) {
 		this.playerService = playerService;
-
 	}
 
 	@RequestMapping(value = "/{nickname}", method = RequestMethod.GET, produces = APPLICATION_JSON_VALUE)
-	public ResponseEntity<PlayerTO> getPlayerByNickname(@PathVariable(value = "nickname") String nickname) {
-
-		try {
-			PlayerTO playerTO = playerService.getPlayerInformations(nickname);
-			return new ResponseEntity<>(playerTO, HttpStatus.FOUND);
-		} catch (NonExistingPlayerException e) {
-			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-		}
+	public ResponseEntity<PlayerTO> getPlayerByNickname(@PathVariable(value = "nickname") String nickname) throws NonExistingPlayerException {
+		PlayerTO playerTO = playerService.getPlayerInformations(nickname);
+		return new ResponseEntity<>(playerTO, HttpStatus.FOUND);
 	}
 
 	@RequestMapping(value = "/update-player", method = RequestMethod.POST, produces = APPLICATION_JSON_VALUE)
-	public ResponseEntity<PlayerTO> updatePlayerByNickname(@RequestBody PlayerTO updatedPlayer) {
-
-		try {
-			playerService.updatePlayer(updatedPlayer);
-			return new ResponseEntity<>(updatedPlayer, HttpStatus.FOUND);
-		} catch (NonExistingPlayerException e) {
-			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-		}
+	public ResponseEntity<PlayerTO> updatePlayerByNickname(@RequestBody PlayerTO updatedPlayer)
+			throws NonExistingPlayerException {
+		playerService.updatePlayer(updatedPlayer);
+		return new ResponseEntity<>(updatedPlayer, HttpStatus.FOUND);
 	}
 
 	@RequestMapping(value = "/search-player", method = RequestMethod.GET, produces = APPLICATION_JSON_VALUE)
-	public ResponseEntity<List<PlayerSearchTO>> searchPlayer(@RequestBody PlayerSearchTO searchedPlayer) {
+	public ResponseEntity<List<PlayerSearchTO>> searchPlayer(@RequestBody PlayerSearchTO searchedPlayer)
+			throws NonExistingPlayerException {
 		List<PlayerSearchTO> foundPlayers;
-		try {
-			foundPlayers = playerService.searchPlayersByCriteria(searchedPlayer);
-			return new ResponseEntity<>(foundPlayers, HttpStatus.FOUND);
-		} catch (NonExistingPlayerException e) {
-			// TODO Auto-generated catch block
-			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-		}
+		foundPlayers = playerService.searchPlayersByCriteria(searchedPlayer);
+		return new ResponseEntity<>(foundPlayers, HttpStatus.FOUND);
 	}
 
 	@ResponseBody
 	@ExceptionHandler(Exception.class)
-	@ResponseStatus(HttpStatus.BAD_REQUEST)
-	public Error playerExceptionHandler(Exception ex) {
+	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+	public ErrorMessage playerExceptionHandler(Exception ex) {
 		LOGGER.error("Error in player service: ", ex);
-		return new Error(ex.getMessage());
+		return new ErrorMessage(ex.getMessage());
+	}
+
+	@ResponseBody
+	@ExceptionHandler(NonExistingPlayerException.class)
+	@ResponseStatus(HttpStatus.NOT_FOUND)
+	public ErrorMessage playerNotFoundException(Exception ex) {
+		LOGGER.error("Error in player service: ", ex);
+		return new ErrorMessage(ex.getMessage());
 	}
 
 }
