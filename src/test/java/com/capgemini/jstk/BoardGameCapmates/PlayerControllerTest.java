@@ -98,7 +98,7 @@ public class PlayerControllerTest {
         players.add(player);
         //when
         Mockito.when(playerService.searchPlayersByCriteria(criteria)).thenReturn(players);
-        mockMvc.perform(get("/player/search-player").flashAttr("search", criteria))
+        mockMvc.perform(post("/player/search-player").flashAttr("search", criteria))
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE));
         //then
         verify(playerService, times(1)).searchPlayersByCriteria(Mockito.any());

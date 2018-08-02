@@ -43,7 +43,7 @@ public class PlayerController {
 		return updatedPlayer;
 	}
 
-	@RequestMapping(value = "/player/search-player", method = RequestMethod.GET, produces = APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/player/search-player", method = RequestMethod.POST, produces = APPLICATION_JSON_VALUE)
 	public List<PlayerSearchTO> searchPlayer(@ModelAttribute("search") PlayerSearchTO searchedPlayer)
 			throws NonExistingPlayerException {
 		List<PlayerSearchTO> foundPlayers;
